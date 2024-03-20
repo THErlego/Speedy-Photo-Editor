@@ -252,6 +252,32 @@ namespace SpeedyPhotoEditor
                 pic.Refresh();
             }
         }
+        //ROTATE 90
+        private Bitmap ModifiedBitmap(Image original_image, RotateFlipType rotate_flip_type)
+        {
+            // Copy the Bitmap.
+            Bitmap new_bitmap = new Bitmap(original_image);
+
+            // Rotate and flip.
+            new_bitmap.RotateFlip(rotate_flip_type);
+
+            // Return the result.
+            return new_bitmap;
+        }
+        private void Rotate90_Click(object sender, EventArgs e)
+        {
+            rotate90Button.Image = Properties.Resources.rotate90sel;
+            if (selectBox != null && selectBox.Width > 1 && selectBox.Height > 1)
+            {
+                int wid = selectBox.Width;
+                int hei = selectBox.Height;
+                selectBox.Width = hei;
+                selectBox.Height = wid;
+                selectBox.Image = ModifiedBitmap(selectBox.Image, RotateFlipType.Rotate90FlipNone);
+                dim = ModifiedBitmap(dim, RotateFlipType.Rotate90FlipNone);
+                selectBox.Refresh();
+            }
+        }
         //BRUSH WIDTH
         private void brushTxt_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -310,6 +336,10 @@ namespace SpeedyPhotoEditor
         {
             cropButton.Image = Properties.Resources.crop;
         }
+        private void rotate90Button_MouseUp(object sender, MouseEventArgs e)
+        {
+            rotate90Button.Image = Properties.Resources.rotate90;
+        }
 
         //CANVAS PICTURE
         int dx, dy, mx, my;
@@ -350,6 +380,12 @@ namespace SpeedyPhotoEditor
             DB.Image = pic.Image;
             DB1.Image = rm;
             posStatus.Text = "Position: " + e.X + "," + e.Y + "px";
+            //this is for inserting image
+            if (imgDrop)
+            {
+                selectionStatus.Text = "Inserting: " + Image.FromFile(filePath).Width + " x " + Image.FromFile(filePath).Height + "px";
+            }
+            //all below is for dragging select box OR brush tool
             if (!md) return;
             if (shiftHold) return;
             if (select)
@@ -366,7 +402,7 @@ namespace SpeedyPhotoEditor
 
                 pic.Refresh();
             }
-            else
+            else if (selectBox == null || selectBox.Width < 2 && selectBox.Height < 2)
             {
                 px = e.Location;
                 if (brushShape.Text == "Line") 
@@ -410,12 +446,14 @@ namespace SpeedyPhotoEditor
                 createSelection(MakeRectangle(dx, dy, e.X, e.Y));
                 if (selectBox.Width == 0) { selectionStatus.Text = "Selection: 0 x 0px"; }
                 pic.Refresh();
+                ImageScale = 1.0f;
             }
             else
             {
 
             }
         }
+        //SELECTBOX MAGIC
         private Rectangle MakeRectangle(int x0, int y0, int x1, int y1)
         {
             return new Rectangle(
@@ -456,6 +494,12 @@ namespace SpeedyPhotoEditor
                 DisplayGraphics = Graphics.FromImage(dim);
                 selectBox.Image = dim;
                 DB2.Image = dim;
+
+                ImageWidth = selectBox.Image.Width;
+                ImageHeight = selectBox.Image.Height;
+                selectBox.SizeMode = PictureBoxSizeMode.Zoom;
+                selectBox.Size = new Size(ImageWidth, ImageHeight);
+                this.MouseWheel += new MouseEventHandler(picImage_MouseWheel);
             };
 
             
@@ -474,7 +518,6 @@ namespace SpeedyPhotoEditor
         {
             Pen pesel = new Pen(Color.Blue, 2);
             pesel.DashPattern = new float[] { 5, 5 };
-            //e.Graphics.DrawImageUnscaled(rm, -dx, -dy, selectBox.Width, selectBox.Height);
             e.Graphics.DrawRectangle(pesel, 0, 0, selectBox.Width, selectBox.Height);
             
             
@@ -492,11 +535,37 @@ namespace SpeedyPhotoEditor
         {
             
             if (!selectDrag) return;
-            ex = e.X - sx;
-            ey = e.Y - sy;
-            
-            //selectBox.Location = new Point(selectBox.Location.X + ex, selectBox.Location.Y + ey);
-            msg.Text = selectBox.Location.X + " " + sx + " " + ex;
+            if (select)
+            {
+                ex = e.X - sx;
+                ey = e.Y - sy;
+                //selectBox.Location = new Point(selectBox.Location.X + ex, selectBox.Location.Y + ey);
+                msg.Text = selectBox.Location.X + " " + sx + " " + ex;
+            }
+
+            //draw
+            else if (!select)
+            {
+                px = e.Location;
+                Graphics gr = Graphics.FromImage(dim);
+                if (brushShape.Text == "Line") 
+                { 
+                    gr.DrawLine(brush, px, py); 
+                }
+                else if (brushShape.Text == "Circle")
+                { 
+                    gr.DrawEllipse(brush, e.Location.X, e.Location.Y, brush.Width/2, brush.Width/2);
+                    gr.FillEllipse(brushFill, e.Location.X, e.Location.Y, brush.Width / 2, brush.Width / 2);
+                }
+                else if (brushShape.Text == "Diamond")
+                {
+                    gr.DrawEllipse(brush, (e.Location.X), (e.Location.Y), 1, 1);
+                    gr.FillRectangle(brushFill, new Rectangle(e.Location.X - (int)(brush.Width / 3), e.Location.Y - (int)(brush.Width / 3), (int)(brush.Width / 1.5), (int)(brush.Width / 1.5)));
+                }
+                py = px;
+                selectBox.Refresh();
+                
+            }
 
         }
         protected void selectBox_MouseUp(object sender, MouseEventArgs e)
@@ -509,7 +578,28 @@ namespace SpeedyPhotoEditor
             sy = 0;
             
         }
+        //SCROLLS
+        private int ImageWidth, ImageHeight;
+        private float ImageScale = 1.0f;
+        private void picImage_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (!select) { return; }
+            // The amount by which we adjust scale per wheel click.
+            const float scale_per_delta = 0.1f / 120;
 
+            // Update the drawing based upon the mouse wheel scrolling.
+            ImageScale += e.Delta * scale_per_delta;
+            if (ImageScale < 0) ImageScale = 0;
+
+            // Size the image.
+            selectBox.Size = new Size(
+                (int)(ImageWidth * ImageScale),
+                (int)(ImageHeight * ImageScale));
+            if (selectBox.Width > 1)
+            {
+                dim = new Bitmap(dim, selectBox.Size);
+            }
+        }
 
 
         //COLORS
@@ -684,6 +774,10 @@ namespace SpeedyPhotoEditor
             greenTxt.Text = a.G + "";
             blueTxt.Text = a.B + "";
         }
+
+        
+
+        
 
         
         

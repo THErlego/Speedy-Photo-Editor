@@ -35,6 +35,7 @@
             this.msg = new System.Windows.Forms.ToolStripStatusLabel();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -55,7 +56,6 @@
             this.redTrack = new System.Windows.Forms.TrackBar();
             this.greenTrack = new System.Windows.Forms.TrackBar();
             this.brushShape = new System.Windows.Forms.ComboBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.previewBox = new System.Windows.Forms.PictureBox();
             this.pic = new System.Windows.Forms.PictureBox();
             this.DB2 = new System.Windows.Forms.PictureBox();
@@ -68,6 +68,7 @@
             this.brushButton = new System.Windows.Forms.ToolStripButton();
             this.selectButton = new System.Windows.Forms.ToolStripButton();
             this.cropButton = new System.Windows.Forms.ToolStripButton();
+            this.rotate90Button = new System.Windows.Forms.ToolStripButton();
             this.StatusBar.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -137,7 +138,8 @@
             this.brushButton,
             this.selectButton,
             this.toolStripSeparator1,
-            this.cropButton});
+            this.cropButton,
+            this.rotate90Button});
             this.ToolBar.Location = new System.Drawing.Point(0, 0);
             this.ToolBar.Name = "ToolBar";
             this.ToolBar.Size = new System.Drawing.Size(784, 31);
@@ -149,12 +151,17 @@
             this.toolStripSeparator.Name = "toolStripSeparator";
             this.toolStripSeparator.Size = new System.Drawing.Size(6, 31);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 212F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 216F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 1);
@@ -176,7 +183,7 @@
             this.panel1.Location = new System.Drawing.Point(7, 49);
             this.panel1.Margin = new System.Windows.Forms.Padding(5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(556, 405);
+            this.panel1.Size = new System.Drawing.Size(552, 405);
             this.panel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -193,7 +200,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(566, 40);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(562, 40);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // brushTrack
@@ -205,7 +212,7 @@
             this.brushTrack.Maximum = 100;
             this.brushTrack.Minimum = 1;
             this.brushTrack.Name = "brushTrack";
-            this.brushTrack.Size = new System.Drawing.Size(531, 40);
+            this.brushTrack.Size = new System.Drawing.Size(527, 40);
             this.brushTrack.TabIndex = 0;
             this.brushTrack.Value = 1;
             this.brushTrack.Scroll += new System.EventHandler(this.brushTrack_Scroll);
@@ -231,10 +238,10 @@
             this.panel2.Controls.Add(this.SwatchContainer);
             this.panel2.Controls.Add(this.tableLayoutPanel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(570, 44);
+            this.panel2.Location = new System.Drawing.Point(566, 44);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(212, 415);
+            this.panel2.Size = new System.Drawing.Size(216, 415);
             this.panel2.TabIndex = 2;
             // 
             // SwatchContainer
@@ -318,7 +325,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(212, 114);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(216, 114);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // blueTrack
@@ -329,7 +336,7 @@
             this.blueTrack.Margin = new System.Windows.Forms.Padding(0);
             this.blueTrack.Maximum = 255;
             this.blueTrack.Name = "blueTrack";
-            this.blueTrack.Size = new System.Drawing.Size(177, 38);
+            this.blueTrack.Size = new System.Drawing.Size(181, 38);
             this.blueTrack.TabIndex = 5;
             this.blueTrack.Scroll += new System.EventHandler(this.blueTrack_Scroll);
             // 
@@ -380,7 +387,7 @@
             this.redTrack.Margin = new System.Windows.Forms.Padding(0);
             this.redTrack.Maximum = 255;
             this.redTrack.Name = "redTrack";
-            this.redTrack.Size = new System.Drawing.Size(177, 38);
+            this.redTrack.Size = new System.Drawing.Size(181, 38);
             this.redTrack.TabIndex = 3;
             this.redTrack.Scroll += new System.EventHandler(this.redTrack_Scroll);
             // 
@@ -392,7 +399,7 @@
             this.greenTrack.Margin = new System.Windows.Forms.Padding(0);
             this.greenTrack.Maximum = 255;
             this.greenTrack.Name = "greenTrack";
-            this.greenTrack.Size = new System.Drawing.Size(177, 38);
+            this.greenTrack.Size = new System.Drawing.Size(181, 38);
             this.greenTrack.TabIndex = 4;
             this.greenTrack.Scroll += new System.EventHandler(this.greenTrack_Scroll);
             // 
@@ -403,18 +410,13 @@
             "Line",
             "Circle",
             "Diamond"});
-            this.brushShape.Location = new System.Drawing.Point(573, 12);
+            this.brushShape.Location = new System.Drawing.Point(569, 12);
             this.brushShape.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.brushShape.Name = "brushShape";
             this.brushShape.Size = new System.Drawing.Size(197, 21);
             this.brushShape.TabIndex = 3;
             this.brushShape.Text = "Line";
             this.brushShape.SelectedIndexChanged += new System.EventHandler(this.brushShape_SelectedIndexChanged);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // previewBox
             // 
@@ -550,6 +552,17 @@
             this.cropButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.cropButton_MouseUp);
             this.cropButton.Click += new System.EventHandler(this.cropButton_Click);
             // 
+            // rotate90Button
+            // 
+            this.rotate90Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.rotate90Button.Image = global::SpeedyPhotoEditor.Properties.Resources.rotate90;
+            this.rotate90Button.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rotate90Button.Name = "rotate90Button";
+            this.rotate90Button.Size = new System.Drawing.Size(28, 28);
+            this.rotate90Button.Text = "Rotate 90 Degrees";
+            this.rotate90Button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.rotate90Button_MouseUp);
+            this.rotate90Button.Click += new System.EventHandler(this.Rotate90_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -634,6 +647,7 @@
         private System.Windows.Forms.PictureBox previewBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton cropButton;
+        private System.Windows.Forms.ToolStripButton rotate90Button;
     }
 }
 

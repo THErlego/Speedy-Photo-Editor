@@ -123,6 +123,20 @@ namespace SpeedyPhotoEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap rotate90 {
+            get {
+                object obj = ResourceManager.GetObject("rotate90", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rotate90sel {
+            get {
+                object obj = ResourceManager.GetObject("rotate90sel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap save {
             get {
                 object obj = ResourceManager.GetObject("save", resourceCulture);

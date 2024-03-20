@@ -133,6 +133,8 @@
     <Content Include="Resources\crop.png" />
     <None Include="Resources\crop1.png" />
     <Content Include="Resources\cropsel.png" />
+    <None Include="Resources\rotate90sel.png" />
+    <None Include="Resources\rotate90.png" />
     <None Include="Resources\cropsel1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
