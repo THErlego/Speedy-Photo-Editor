@@ -1,14 +1,14 @@
-﻿namespace Speedy_Photo_Editor
+﻿namespace PhotoEditorRedux
 {
     partial class Form1
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -23,267 +23,617 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            statusStrip1 = new StatusStrip();
-            Position = new ToolStripStatusLabel();
-            toolStrip1 = new ToolStrip();
-            newToolStripButton = new ToolStripButton();
-            openToolStripButton = new ToolStripButton();
-            saveToolStripButton = new ToolStripButton();
-            printToolStripButton = new ToolStripButton();
-            toolStripSeparator = new ToolStripSeparator();
-            cutToolStripButton = new ToolStripButton();
-            copyToolStripButton = new ToolStripButton();
-            pasteToolStripButton = new ToolStripButton();
-            toolStripSeparator1 = new ToolStripSeparator();
-            layercheck = new ToolStripButton();
-            body = new TableLayoutPanel();
-            BrushControl = new FlowLayoutPanel();
-            textBox1 = new TextBox();
-            trackBar1 = new TrackBar();
-            CanContainer = new Panel();
-            Canvas = new PictureBox();
-            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            statusStrip1.SuspendLayout();
-            toolStrip1.SuspendLayout();
-            body.SuspendLayout();
-            BrushControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
-            CanContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)Canvas).BeginInit();
-            SuspendLayout();
+            this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.posStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.canvasStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.selectionStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.msg = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ToolBar = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.brushTrack = new System.Windows.Forms.TrackBar();
+            this.brushTxt = new System.Windows.Forms.TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.SwatchContainer = new System.Windows.Forms.Panel();
+            this.swatch4 = new System.Windows.Forms.Button();
+            this.swatch3 = new System.Windows.Forms.Button();
+            this.swatch2 = new System.Windows.Forms.Button();
+            this.swatch1 = new System.Windows.Forms.Button();
+            this.swatch0 = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.blueTrack = new System.Windows.Forms.TrackBar();
+            this.redTxt = new System.Windows.Forms.TextBox();
+            this.greenTxt = new System.Windows.Forms.TextBox();
+            this.blueTxt = new System.Windows.Forms.TextBox();
+            this.redTrack = new System.Windows.Forms.TrackBar();
+            this.greenTrack = new System.Windows.Forms.TrackBar();
+            this.brushShape = new System.Windows.Forms.ComboBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.previewBox = new System.Windows.Forms.PictureBox();
+            this.pic = new System.Windows.Forms.PictureBox();
+            this.DB2 = new System.Windows.Forms.PictureBox();
+            this.DB1 = new System.Windows.Forms.PictureBox();
+            this.DB = new System.Windows.Forms.PictureBox();
+            this.newButton = new System.Windows.Forms.ToolStripButton();
+            this.openButton = new System.Windows.Forms.ToolStripButton();
+            this.saveButton = new System.Windows.Forms.ToolStripButton();
+            this.saveAsButton = new System.Windows.Forms.ToolStripButton();
+            this.brushButton = new System.Windows.Forms.ToolStripButton();
+            this.selectButton = new System.Windows.Forms.ToolStripButton();
+            this.cropButton = new System.Windows.Forms.ToolStripButton();
+            this.StatusBar.SuspendLayout();
+            this.ToolBar.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.brushTrack)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.SwatchContainer.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.blueTrack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.redTrack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.greenTrack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB)).BeginInit();
+            this.SuspendLayout();
             // 
-            // statusStrip1
+            // StatusBar
             // 
-            statusStrip1.BackColor = Color.LightGray;
-            statusStrip1.Items.AddRange(new ToolStripItem[] { Position });
-            statusStrip1.Location = new Point(0, 533);
-            statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(800, 22);
-            statusStrip1.TabIndex = 0;
-            statusStrip1.Text = "statusStrip1";
+            this.StatusBar.BackColor = System.Drawing.Color.LightGray;
+            this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.posStatus,
+            this.canvasStatus,
+            this.selectionStatus,
+            this.msg});
+            this.StatusBar.Location = new System.Drawing.Point(0, 492);
+            this.StatusBar.Name = "StatusBar";
+            this.StatusBar.Size = new System.Drawing.Size(784, 22);
+            this.StatusBar.TabIndex = 0;
             // 
-            // Position
+            // posStatus
             // 
-            Position.Name = "Position";
-            Position.Size = new Size(56, 17);
-            Position.Text = "Hovering";
+            this.posStatus.Name = "posStatus";
+            this.posStatus.Size = new System.Drawing.Size(87, 17);
+            this.posStatus.Text = "Position: 0, 0px";
             // 
-            // toolStrip1
+            // canvasStatus
             // 
-            toolStrip1.BackColor = Color.LightGray;
-            toolStrip1.Items.AddRange(new ToolStripItem[] { newToolStripButton, openToolStripButton, saveToolStripButton, printToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton, toolStripSeparator1, layercheck });
-            toolStrip1.Location = new Point(0, 0);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(800, 25);
-            toolStrip1.TabIndex = 1;
-            toolStrip1.Text = "toolStrip1";
+            this.canvasStatus.Name = "canvasStatus";
+            this.canvasStatus.Size = new System.Drawing.Size(110, 17);
+            this.canvasStatus.Text = "Canvas size: 0 x 0px";
             // 
-            // newToolStripButton
+            // selectionStatus
             // 
-            newToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            newToolStripButton.Image = (Image)resources.GetObject("newToolStripButton.Image");
-            newToolStripButton.ImageTransparentColor = Color.Magenta;
-            newToolStripButton.Name = "newToolStripButton";
-            newToolStripButton.Size = new Size(23, 22);
-            newToolStripButton.Text = "&New";
-            newToolStripButton.Click += newToolStripButton_Click;
+            this.selectionStatus.Name = "selectionStatus";
+            this.selectionStatus.Size = new System.Drawing.Size(98, 17);
+            this.selectionStatus.Text = "Selection: 0 x 0px";
             // 
-            // openToolStripButton
+            // msg
             // 
-            openToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            openToolStripButton.Image = (Image)resources.GetObject("openToolStripButton.Image");
-            openToolStripButton.ImageTransparentColor = Color.Magenta;
-            openToolStripButton.Name = "openToolStripButton";
-            openToolStripButton.Size = new Size(23, 22);
-            openToolStripButton.Text = "&Open";
-            openToolStripButton.Click += openToolStripButton_Click;
+            this.msg.Name = "msg";
+            this.msg.Size = new System.Drawing.Size(0, 17);
             // 
-            // saveToolStripButton
+            // ToolBar
             // 
-            saveToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            saveToolStripButton.Image = (Image)resources.GetObject("saveToolStripButton.Image");
-            saveToolStripButton.ImageTransparentColor = Color.Magenta;
-            saveToolStripButton.Name = "saveToolStripButton";
-            saveToolStripButton.Size = new Size(23, 22);
-            saveToolStripButton.Text = "&Save";
-            // 
-            // printToolStripButton
-            // 
-            printToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            printToolStripButton.Image = (Image)resources.GetObject("printToolStripButton.Image");
-            printToolStripButton.ImageTransparentColor = Color.Magenta;
-            printToolStripButton.Name = "printToolStripButton";
-            printToolStripButton.Size = new Size(23, 22);
-            printToolStripButton.Text = "&Print";
+            this.ToolBar.BackColor = System.Drawing.Color.LightGray;
+            this.ToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.ToolBar.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.ToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newButton,
+            this.openButton,
+            this.saveButton,
+            this.saveAsButton,
+            this.toolStripSeparator,
+            this.brushButton,
+            this.selectButton,
+            this.toolStripSeparator1,
+            this.cropButton});
+            this.ToolBar.Location = new System.Drawing.Point(0, 0);
+            this.ToolBar.Name = "ToolBar";
+            this.ToolBar.Size = new System.Drawing.Size(784, 31);
+            this.ToolBar.TabIndex = 1;
+            this.ToolBar.Text = "toolStrip1";
             // 
             // toolStripSeparator
             // 
-            toolStripSeparator.Name = "toolStripSeparator";
-            toolStripSeparator.Size = new Size(6, 25);
+            this.toolStripSeparator.Name = "toolStripSeparator";
+            this.toolStripSeparator.Size = new System.Drawing.Size(6, 31);
             // 
-            // cutToolStripButton
+            // tableLayoutPanel1
             // 
-            cutToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            cutToolStripButton.Image = (Image)resources.GetObject("cutToolStripButton.Image");
-            cutToolStripButton.ImageTransparentColor = Color.Magenta;
-            cutToolStripButton.Name = "cutToolStripButton";
-            cutToolStripButton.Size = new Size(23, 22);
-            cutToolStripButton.Text = "C&ut";
+            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 212F));
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.brushShape, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 31);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 461);
+            this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // copyToolStripButton
+            // panel1
             // 
-            copyToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            copyToolStripButton.Image = (Image)resources.GetObject("copyToolStripButton.Image");
-            copyToolStripButton.ImageTransparentColor = Color.Magenta;
-            copyToolStripButton.Name = "copyToolStripButton";
-            copyToolStripButton.Size = new Size(23, 22);
-            copyToolStripButton.Text = "&Copy";
+            this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.pic);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(7, 49);
+            this.panel1.Margin = new System.Windows.Forms.Padding(5);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(556, 405);
+            this.panel1.TabIndex = 0;
             // 
-            // pasteToolStripButton
+            // tableLayoutPanel2
             // 
-            pasteToolStripButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            pasteToolStripButton.Image = (Image)resources.GetObject("pasteToolStripButton.Image");
-            pasteToolStripButton.ImageTransparentColor = Color.Magenta;
-            pasteToolStripButton.Name = "pasteToolStripButton";
-            pasteToolStripButton.Size = new Size(23, 22);
-            pasteToolStripButton.Text = "&Paste";
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.brushTrack, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.brushTxt, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(2, 2);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(566, 40);
+            this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // brushTrack
+            // 
+            this.brushTrack.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.brushTrack.LargeChange = 10;
+            this.brushTrack.Location = new System.Drawing.Point(35, 0);
+            this.brushTrack.Margin = new System.Windows.Forms.Padding(0);
+            this.brushTrack.Maximum = 100;
+            this.brushTrack.Minimum = 1;
+            this.brushTrack.Name = "brushTrack";
+            this.brushTrack.Size = new System.Drawing.Size(531, 40);
+            this.brushTrack.TabIndex = 0;
+            this.brushTrack.Value = 1;
+            this.brushTrack.Scroll += new System.EventHandler(this.brushTrack_Scroll);
+            // 
+            // brushTxt
+            // 
+            this.brushTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.brushTxt.Location = new System.Drawing.Point(0, 10);
+            this.brushTxt.Margin = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.brushTxt.MaxLength = 3;
+            this.brushTxt.Name = "brushTxt";
+            this.brushTxt.Size = new System.Drawing.Size(35, 20);
+            this.brushTxt.TabIndex = 1;
+            this.brushTxt.Text = "1";
+            this.brushTxt.TextChanged += new System.EventHandler(this.brushTxt_TextChanged);
+            this.brushTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.brushTxt_KeyPress);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.DB2);
+            this.panel2.Controls.Add(this.DB1);
+            this.panel2.Controls.Add(this.DB);
+            this.panel2.Controls.Add(this.SwatchContainer);
+            this.panel2.Controls.Add(this.tableLayoutPanel3);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(570, 44);
+            this.panel2.Margin = new System.Windows.Forms.Padding(0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(212, 415);
+            this.panel2.TabIndex = 2;
+            // 
+            // SwatchContainer
+            // 
+            this.SwatchContainer.Controls.Add(this.swatch4);
+            this.SwatchContainer.Controls.Add(this.swatch3);
+            this.SwatchContainer.Controls.Add(this.swatch2);
+            this.SwatchContainer.Controls.Add(this.swatch1);
+            this.SwatchContainer.Controls.Add(this.swatch0);
+            this.SwatchContainer.Location = new System.Drawing.Point(0, 117);
+            this.SwatchContainer.Margin = new System.Windows.Forms.Padding(0);
+            this.SwatchContainer.Name = "SwatchContainer";
+            this.SwatchContainer.Size = new System.Drawing.Size(200, 40);
+            this.SwatchContainer.TabIndex = 1;
+            // 
+            // swatch4
+            // 
+            this.swatch4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.swatch4.Location = new System.Drawing.Point(163, 3);
+            this.swatch4.Name = "swatch4";
+            this.swatch4.Size = new System.Drawing.Size(34, 34);
+            this.swatch4.TabIndex = 5;
+            this.swatch4.UseVisualStyleBackColor = true;
+            this.swatch4.Click += new System.EventHandler(this.swatch4_Click);
+            // 
+            // swatch3
+            // 
+            this.swatch3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.swatch3.Location = new System.Drawing.Point(123, 3);
+            this.swatch3.Name = "swatch3";
+            this.swatch3.Size = new System.Drawing.Size(34, 34);
+            this.swatch3.TabIndex = 4;
+            this.swatch3.UseVisualStyleBackColor = true;
+            this.swatch3.Click += new System.EventHandler(this.swatch3_Click);
+            // 
+            // swatch2
+            // 
+            this.swatch2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.swatch2.Location = new System.Drawing.Point(83, 3);
+            this.swatch2.Name = "swatch2";
+            this.swatch2.Size = new System.Drawing.Size(34, 34);
+            this.swatch2.TabIndex = 3;
+            this.swatch2.UseVisualStyleBackColor = true;
+            this.swatch2.Click += new System.EventHandler(this.swatch2_Click);
+            // 
+            // swatch1
+            // 
+            this.swatch1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.swatch1.Location = new System.Drawing.Point(43, 3);
+            this.swatch1.Name = "swatch1";
+            this.swatch1.Size = new System.Drawing.Size(34, 34);
+            this.swatch1.TabIndex = 2;
+            this.swatch1.UseVisualStyleBackColor = true;
+            this.swatch1.Click += new System.EventHandler(this.swatch1_Click);
+            // 
+            // swatch0
+            // 
+            this.swatch0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.swatch0.Location = new System.Drawing.Point(3, 3);
+            this.swatch0.Name = "swatch0";
+            this.swatch0.Size = new System.Drawing.Size(34, 34);
+            this.swatch0.TabIndex = 1;
+            this.swatch0.UseVisualStyleBackColor = true;
+            this.swatch0.Click += new System.EventHandler(this.swatch0_Click);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 2;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.blueTrack, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.redTxt, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.greenTxt, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.blueTxt, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.redTrack, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.greenTrack, 1, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 3;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(212, 114);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // blueTrack
+            // 
+            this.blueTrack.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.blueTrack.LargeChange = 32;
+            this.blueTrack.Location = new System.Drawing.Point(35, 76);
+            this.blueTrack.Margin = new System.Windows.Forms.Padding(0);
+            this.blueTrack.Maximum = 255;
+            this.blueTrack.Name = "blueTrack";
+            this.blueTrack.Size = new System.Drawing.Size(177, 38);
+            this.blueTrack.TabIndex = 5;
+            this.blueTrack.Scroll += new System.EventHandler(this.blueTrack_Scroll);
+            // 
+            // redTxt
+            // 
+            this.redTxt.BackColor = System.Drawing.Color.Salmon;
+            this.redTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.redTxt.Location = new System.Drawing.Point(0, 5);
+            this.redTxt.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.redTxt.MaxLength = 3;
+            this.redTxt.Name = "redTxt";
+            this.redTxt.Size = new System.Drawing.Size(35, 20);
+            this.redTxt.TabIndex = 0;
+            this.redTxt.Leave += new System.EventHandler(this.redTxt_Leave);
+            this.redTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.redTxt_KeyPress);
+            // 
+            // greenTxt
+            // 
+            this.greenTxt.BackColor = System.Drawing.Color.PaleGreen;
+            this.greenTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.greenTxt.Location = new System.Drawing.Point(0, 43);
+            this.greenTxt.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.greenTxt.MaxLength = 3;
+            this.greenTxt.Name = "greenTxt";
+            this.greenTxt.Size = new System.Drawing.Size(35, 20);
+            this.greenTxt.TabIndex = 1;
+            this.greenTxt.Leave += new System.EventHandler(this.greenTxt_Leave);
+            this.greenTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.greenTxt_KeyPress);
+            // 
+            // blueTxt
+            // 
+            this.blueTxt.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.blueTxt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.blueTxt.Location = new System.Drawing.Point(0, 81);
+            this.blueTxt.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.blueTxt.MaxLength = 3;
+            this.blueTxt.Name = "blueTxt";
+            this.blueTxt.Size = new System.Drawing.Size(35, 20);
+            this.blueTxt.TabIndex = 2;
+            this.blueTxt.Leave += new System.EventHandler(this.blueTxt_Leave);
+            this.blueTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.blueTxt_KeyPress);
+            // 
+            // redTrack
+            // 
+            this.redTrack.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.redTrack.LargeChange = 32;
+            this.redTrack.Location = new System.Drawing.Point(35, 0);
+            this.redTrack.Margin = new System.Windows.Forms.Padding(0);
+            this.redTrack.Maximum = 255;
+            this.redTrack.Name = "redTrack";
+            this.redTrack.Size = new System.Drawing.Size(177, 38);
+            this.redTrack.TabIndex = 3;
+            this.redTrack.Scroll += new System.EventHandler(this.redTrack_Scroll);
+            // 
+            // greenTrack
+            // 
+            this.greenTrack.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.greenTrack.LargeChange = 32;
+            this.greenTrack.Location = new System.Drawing.Point(35, 38);
+            this.greenTrack.Margin = new System.Windows.Forms.Padding(0);
+            this.greenTrack.Maximum = 255;
+            this.greenTrack.Name = "greenTrack";
+            this.greenTrack.Size = new System.Drawing.Size(177, 38);
+            this.greenTrack.TabIndex = 4;
+            this.greenTrack.Scroll += new System.EventHandler(this.greenTrack_Scroll);
+            // 
+            // brushShape
+            // 
+            this.brushShape.FormattingEnabled = true;
+            this.brushShape.Items.AddRange(new object[] {
+            "Line",
+            "Circle",
+            "Diamond"});
+            this.brushShape.Location = new System.Drawing.Point(573, 12);
+            this.brushShape.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
+            this.brushShape.Name = "brushShape";
+            this.brushShape.Size = new System.Drawing.Size(197, 21);
+            this.brushShape.TabIndex = 3;
+            this.brushShape.Text = "Line";
+            this.brushShape.SelectedIndexChanged += new System.EventHandler(this.brushShape_SelectedIndexChanged);
             // 
             // toolStripSeparator1
             // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(6, 25);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
-            // layercheck
+            // previewBox
             // 
-            layercheck.Image = (Image)resources.GetObject("layercheck.Image");
-            layercheck.ImageTransparentColor = Color.Magenta;
-            layercheck.Name = "layercheck";
-            layercheck.Size = new Size(161, 22);
-            layercheck.Text = "Add new layer for images";
-            layercheck.Click += layercheck_Click;
+            this.previewBox.BackColor = System.Drawing.Color.LightGray;
+            this.previewBox.Location = new System.Drawing.Point(752, 1);
+            this.previewBox.Name = "previewBox";
+            this.previewBox.Size = new System.Drawing.Size(30, 30);
+            this.previewBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.previewBox.TabIndex = 3;
+            this.previewBox.TabStop = false;
             // 
-            // body
+            // pic
             // 
-            body.ColumnCount = 2;
-            body.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            body.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
-            body.Controls.Add(BrushControl, 0, 0);
-            body.Controls.Add(CanContainer, 0, 1);
-            body.Dock = DockStyle.Fill;
-            body.Location = new Point(0, 25);
-            body.Name = "body";
-            body.RowCount = 2;
-            body.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
-            body.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            body.Size = new Size(800, 508);
-            body.TabIndex = 2;
+            this.pic.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.pic.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.pic.Location = new System.Drawing.Point(0, 0);
+            this.pic.Margin = new System.Windows.Forms.Padding(0);
+            this.pic.Name = "pic";
+            this.pic.Size = new System.Drawing.Size(437, 309);
+            this.pic.TabIndex = 0;
+            this.pic.TabStop = false;
+            this.pic.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pic_MouseMove);
+            this.pic.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pic_MouseDown);
+            this.pic.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_MouseUp);
             // 
-            // BrushControl
+            // DB2
             // 
-            BrushControl.BackColor = Color.Transparent;
-            BrushControl.Controls.Add(textBox1);
-            BrushControl.Controls.Add(trackBar1);
-            BrushControl.Dock = DockStyle.Top;
-            BrushControl.Location = new Point(3, 3);
-            BrushControl.Name = "BrushControl";
-            BrushControl.Size = new Size(614, 30);
-            BrushControl.TabIndex = 0;
+            this.DB2.BackColor = System.Drawing.Color.Transparent;
+            this.DB2.Image = global::PhotoEditorRedux.Properties.Resources._936996628718563379;
+            this.DB2.Location = new System.Drawing.Point(3, 274);
+            this.DB2.Name = "DB2";
+            this.DB2.Size = new System.Drawing.Size(104, 108);
+            this.DB2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DB2.TabIndex = 4;
+            this.DB2.TabStop = false;
             // 
-            // textBox1
+            // DB1
             // 
-            textBox1.Dock = DockStyle.Left;
-            textBox1.Location = new Point(3, 3);
-            textBox1.MaxLength = 2;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(39, 23);
-            textBox1.TabIndex = 0;
-            textBox1.TextChanged += textBox1_TextChanged;
+            this.DB1.Image = global::PhotoEditorRedux.Properties.Resources._936996628718563379;
+            this.DB1.Location = new System.Drawing.Point(104, 160);
+            this.DB1.Name = "DB1";
+            this.DB1.Size = new System.Drawing.Size(100, 108);
+            this.DB1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DB1.TabIndex = 3;
+            this.DB1.TabStop = false;
             // 
-            // trackBar1
+            // DB
             // 
-            trackBar1.BackColor = SystemColors.ControlLight;
-            trackBar1.Location = new Point(48, 3);
-            trackBar1.Maximum = 100;
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(556, 45);
-            trackBar1.TabIndex = 1;
-            trackBar1.Value = 1;
-            trackBar1.Scroll += trackBar1_Scroll;
+            this.DB.BackColor = System.Drawing.Color.Transparent;
+            this.DB.Image = global::PhotoEditorRedux.Properties.Resources._936996628718563379;
+            this.DB.Location = new System.Drawing.Point(3, 160);
+            this.DB.Name = "DB";
+            this.DB.Size = new System.Drawing.Size(104, 108);
+            this.DB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DB.TabIndex = 2;
+            this.DB.TabStop = false;
             // 
-            // CanContainer
+            // newButton
             // 
-            CanContainer.AutoScroll = true;
-            CanContainer.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            CanContainer.Controls.Add(Canvas);
-            CanContainer.Dock = DockStyle.Fill;
-            CanContainer.Location = new Point(3, 39);
-            CanContainer.Name = "CanContainer";
-            CanContainer.Size = new Size(614, 466);
-            CanContainer.TabIndex = 2;
+            this.newButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newButton.Image = global::PhotoEditorRedux.Properties.Resources.file;
+            this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(28, 28);
+            this.newButton.Text = "New";
+            this.newButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.newButton_MouseUp);
+            this.newButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.newButton_MouseDown);
             // 
-            // Canvas
+            // openButton
             // 
-            Canvas.BackColor = SystemColors.ControlLightLight;
-            Canvas.Cursor = Cursors.Cross;
-            Canvas.Location = new Point(0, -4);
-            Canvas.Name = "Canvas";
-            Canvas.Size = new Size(500, 261);
-            Canvas.TabIndex = 1;
-            Canvas.TabStop = false;
+            this.openButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openButton.Image = global::PhotoEditorRedux.Properties.Resources.upload;
+            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(28, 28);
+            this.openButton.Text = "Open";
+            this.openButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openButton_MouseUp);
+            this.openButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.openButton_MouseDown);
+            // 
+            // saveButton
+            // 
+            this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveButton.Image = global::PhotoEditorRedux.Properties.Resources.save;
+            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(28, 28);
+            this.saveButton.Text = "Save";
+            this.saveButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseUp);
+            this.saveButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseDown);
+            // 
+            // saveAsButton
+            // 
+            this.saveAsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveAsButton.Image = global::PhotoEditorRedux.Properties.Resources.saveas;
+            this.saveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveAsButton.Name = "saveAsButton";
+            this.saveAsButton.Size = new System.Drawing.Size(28, 28);
+            this.saveAsButton.Text = "Save As";
+            this.saveAsButton.ToolTipText = "Save As";
+            this.saveAsButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.saveAsButton_MouseUp);
+            this.saveAsButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveAsButton_MouseDown);
+            // 
+            // brushButton
+            // 
+            this.brushButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.brushButton.Image = global::PhotoEditorRedux.Properties.Resources.brush;
+            this.brushButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.brushButton.Name = "brushButton";
+            this.brushButton.Size = new System.Drawing.Size(28, 28);
+            this.brushButton.Text = "Brush";
+            this.brushButton.ToolTipText = "Brush";
+            this.brushButton.Click += new System.EventHandler(this.brushButton_Click);
+            // 
+            // selectButton
+            // 
+            this.selectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.selectButton.Image = global::PhotoEditorRedux.Properties.Resources.selectsel;
+            this.selectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.selectButton.Name = "selectButton";
+            this.selectButton.Size = new System.Drawing.Size(28, 28);
+            this.selectButton.Text = "Select";
+            this.selectButton.ToolTipText = "Select";
+            this.selectButton.Click += new System.EventHandler(this.selectButton_Click);
+            // 
+            // cropButton
+            // 
+            this.cropButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cropButton.Image = global::PhotoEditorRedux.Properties.Resources.crop;
+            this.cropButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cropButton.Name = "cropButton";
+            this.cropButton.Size = new System.Drawing.Size(28, 28);
+            this.cropButton.Text = "Crop To Selection";
+            this.cropButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.cropButton_MouseUp);
+            this.cropButton.Click += new System.EventHandler(this.cropButton_Click);
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlLight;
-            ClientSize = new Size(800, 555);
-            Controls.Add(body);
-            Controls.Add(toolStrip1);
-            Controls.Add(statusStrip1);
-            MinimumSize = new Size(100, 100);
-            Name = "Form1";
-            Text = "Speedy Photo Editor";
-            statusStrip1.ResumeLayout(false);
-            statusStrip1.PerformLayout();
-            toolStrip1.ResumeLayout(false);
-            toolStrip1.PerformLayout();
-            body.ResumeLayout(false);
-            BrushControl.ResumeLayout(false);
-            BrushControl.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
-            CanContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)Canvas).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(784, 514);
+            this.Controls.Add(this.previewBox);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.ToolBar);
+            this.Controls.Add(this.StatusBar);
+            this.MinimumSize = new System.Drawing.Size(200, 100);
+            this.Name = "Form1";
+            this.Text = "Speedy Photo Editor";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.StatusBar.ResumeLayout(false);
+            this.StatusBar.PerformLayout();
+            this.ToolBar.ResumeLayout(false);
+            this.ToolBar.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.brushTrack)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.SwatchContainer.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.blueTrack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.redTrack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.greenTrack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.previewBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
 
-        private StatusStrip statusStrip1;
-        private ToolStripStatusLabel Position;
-        private ToolStrip toolStrip1;
-        private TableLayoutPanel body;
-        private ToolStripButton newToolStripButton;
-        private ToolStripButton openToolStripButton;
-        private ToolStripButton saveToolStripButton;
-        private ToolStripButton printToolStripButton;
-        private ToolStripSeparator toolStripSeparator;
-        private ToolStripButton cutToolStripButton;
-        private ToolStripButton copyToolStripButton;
-        private ToolStripButton pasteToolStripButton;
-        private ToolStripSeparator toolStripSeparator1;
-        private ToolStripButton layercheck;
-        private FlowLayoutPanel BrushControl;
-        private TextBox textBox1;
-        private TrackBar trackBar1;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private PictureBox Canvas;
-        private Panel CanContainer;
+        private System.Windows.Forms.StatusStrip StatusBar;
+        private System.Windows.Forms.ToolStrip ToolBar;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pic;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TrackBar brushTrack;
+        private System.Windows.Forms.TextBox brushTxt;
+        private System.Windows.Forms.ToolStripButton newButton;
+        private System.Windows.Forms.ToolStripButton openButton;
+        private System.Windows.Forms.ToolStripButton saveButton;
+        private System.Windows.Forms.ToolStripButton saveAsButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.ToolStripButton brushButton;
+        private System.Windows.Forms.ToolStripButton selectButton;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TextBox redTxt;
+        private System.Windows.Forms.TextBox greenTxt;
+        private System.Windows.Forms.TextBox blueTxt;
+        private System.Windows.Forms.TrackBar redTrack;
+        private System.Windows.Forms.TrackBar blueTrack;
+        private System.Windows.Forms.TrackBar greenTrack;
+        private System.Windows.Forms.ToolStripStatusLabel posStatus;
+        private System.Windows.Forms.ToolStripStatusLabel canvasStatus;
+        private System.Windows.Forms.ToolStripStatusLabel selectionStatus;
+        private System.Windows.Forms.Panel SwatchContainer;
+        private System.Windows.Forms.Button swatch0;
+        private System.Windows.Forms.Button swatch4;
+        private System.Windows.Forms.Button swatch3;
+        private System.Windows.Forms.Button swatch2;
+        private System.Windows.Forms.Button swatch1;
+        private System.Windows.Forms.ComboBox brushShape;
+        private System.Windows.Forms.PictureBox DB;
+        private System.Windows.Forms.PictureBox DB2;
+        private System.Windows.Forms.PictureBox DB1;
+        private System.Windows.Forms.ToolStripStatusLabel msg;
+        private System.Windows.Forms.PictureBox previewBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton cropButton;
     }
 }
+
