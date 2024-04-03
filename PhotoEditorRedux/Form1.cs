@@ -34,6 +34,7 @@ namespace SpeedyPhotoEditor
         int select = 1;
         bool md = false;
         bool shiftHold = false;
+        bool controlHold = false;
         bool layerMode = true;
         //Pen Tool
         int re,gr,bl = 0;
@@ -93,7 +94,7 @@ namespace SpeedyPhotoEditor
         }
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == 27)
+            if (e.KeyChar == 27) // esc
             {
                 if (!md) return;
                 md = false;
@@ -104,40 +105,45 @@ namespace SpeedyPhotoEditor
                 pic.Image = rm;
                 pic.Refresh();
             }
-            if (e.KeyChar == 102)
+            if (e.KeyChar == 102) // f
             {
                 if (select == 0) //paint
                 {
                     
                     brushButton.Image = Properties.Resources.brush;
+                    selectButton.Image = Properties.Resources.selectsel;
+                    pickerButton.Image = Properties.Resources.picker;
+                    select = 1;
+                }
+                else if (select == 1) //select
+                {
+                    brushButton.Image = Properties.Resources.brush;
                     selectButton.Image = Properties.Resources.select;
                     pickerButton.Image = Properties.Resources.pickersel;
                     select = 2;
                 }
-                else if (select == 1) //select
+                else if (select == 2) //pick
                 {
                     brushButton.Image = Properties.Resources.brushsel;
                     selectButton.Image = Properties.Resources.select;
                     pickerButton.Image = Properties.Resources.picker;
                     select = 0;
                 }
-                else if (select == 2) //pick
-                {
-                    brushButton.Image = Properties.Resources.brush;
-                    selectButton.Image = Properties.Resources.selectsel;
-                    pickerButton.Image = Properties.Resources.picker;
-                    select = 1;
-                }
             }
-            if (e.KeyChar == 8 && select == 1)
+            if (e.KeyChar == 8 && select == 1) // 
             {
                 g.DrawRectangle(new Pen(Color.White), new Rectangle(20, 20, 20, 20));
+                
+            }
+            if (e.KeyChar == 99 && controlHold == true && SelectedImage != null)
+            {
+                
                 
             }
         }
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyValue == 16)
+            if (e.KeyValue == 16) //shift
             {
                 shiftHold = true;
             }
@@ -145,11 +151,43 @@ namespace SpeedyPhotoEditor
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyValue == 16)
+            if (e.KeyValue == 16) //shift
             {
                 shiftHold = false;
             }
+            if (e.KeyData == (Keys.C | Keys.Control)) //CTRL C
+            {
+                Clipboard.SetImage(dim);
+                e.Handled = true;
+            }
+            if (e.KeyData == (Keys.V | Keys.Control)) //CTRL V
+            {
+                try
+                {
+                    g.DrawImage(Clipboard.GetImage(), mx, my);
+                    pic.Refresh();
+                }
+                catch
+                {
+                    msg.Text = "Not a valid image";
+                }
+                e.Handled = true;
+            }
+            if (e.KeyData == (Keys.A | Keys.Control)) //CTRL A
+            {
+                SelectedImage = null;
+                SelectedGraphics = null;
+
+                dim = new Bitmap(rm, pic.Size);
+
+                createSelection(MakeRectangle(0, 0, pic.Width, pic.Height));
+                if (selectBox.Width == 0) { selectionStatus.Text = "Selection: 0 x 0px"; }
+                pic.Refresh();
+                ImageScale = 1.0f;
+                e.Handled = true;
+            }
         }
+        
         //BRUSH
         private void brushButton_Click(object sender, EventArgs e)
         {
@@ -216,21 +254,37 @@ namespace SpeedyPhotoEditor
                 }
                 openButton.Image = Properties.Resources.upload;
                 //insert
-                if (!imgFirst)
+                if (!imgFirst) //first inserted image
                 {
-                    pic.Size = Image.FromFile(filePath).Size;
-                    rm = new Bitmap(bm, new Size(Image.FromFile(filePath).Width, Image.FromFile(filePath).Height));
-                    pic.Image = rm;
-                    g = Graphics.FromImage(rm);
-                    imgFirst = true;
-                    g.DrawImage(Bitmap.FromFile(filePath), 0, 0);
-                    canvasStatus.Text = "Canvas size: " + pic.Width + " x " + pic.Height + "px";
+                    try
+                    {
+                        pic.Size = Image.FromFile(filePath).Size;
+                        rm = new Bitmap(bm, new Size(Image.FromFile(filePath).Width, Image.FromFile(filePath).Height));
+                        pic.Image = rm;
+                        g = Graphics.FromImage(rm);
+                        imgFirst = true;
+                        g.DrawImage(Bitmap.FromFile(filePath), 0, 0);
+                        canvasStatus.Text = "Canvas size: " + pic.Width + " x " + pic.Height + "px";
+                    }
+                    catch
+                    {
+                        msg.Text = "Image Cancelled";
+                        
+                    }
                 }
-                else
+                else //2+ image inserts
                 {
                     imgDrop = true;
                     msg.Text = "Select a location to drop image, SHIFT to paste multiple";
-                    previewBox.Image = Image.FromFile(filePath); 
+                    try
+                    {
+                        previewBox.Image = Image.FromFile(filePath);
+                    }
+                    catch
+                    {
+                        msg.Text = "Image Cancelled";
+                    }
+                    
 
                     canvasStatus.Text = "Canvas size: " + pic.Width + " x " + pic.Height + "px";
                 }
@@ -400,13 +454,20 @@ namespace SpeedyPhotoEditor
             dx = e.X;
             dy = e.Y;
             py = e.Location;
-            if (imgDrop)
+            if (imgDrop) //inserting image
             {
-                if (layerMode)
+                if (layerMode) //new layer
                 {
                     AddItem(Bitmap.FromFile(filePath), fileName);
+                    Bitmap lyrbmp = new Bitmap(Bitmap.FromFile(filePath), Bitmap.FromFile(filePath).Size);
+                    pic.Controls.Add(new PictureBox() 
+                    {
+                        Image = lyrbmp,
+                        Size = Bitmap.FromFile(filePath).Size
+                    });
+                    
                 }
-                else
+                else //normal
                 {
                     g.DrawImage(Bitmap.FromFile(filePath), dx, dy);
                 }
@@ -417,7 +478,7 @@ namespace SpeedyPhotoEditor
                 msg.Text = "";
                 previewBox.Image = null;
             }
-            if (select == 0)
+            if (select == 0) //draw
             {
                 swatch(brush.Color);
                 if (shiftHold)
@@ -427,7 +488,7 @@ namespace SpeedyPhotoEditor
                     pic.Refresh();
                 }
             }
-            else if (select == 1)
+            else if (select == 1) //select
             {
                 if (rm == null) { rm = bm;  }
                 if (selectBox != null && selectBox.Width > 1)
@@ -438,7 +499,7 @@ namespace SpeedyPhotoEditor
                 SelectedGraphics = Graphics.FromImage(SelectedImage);
                 pic.Image = SelectedImage;
             }
-            else if (select == 2)
+            else if (select == 2) //color pick
             {
                 if (rm == null)
                 {
@@ -534,7 +595,7 @@ namespace SpeedyPhotoEditor
                 SelectedImage = null;
                 SelectedGraphics = null;
                 pic.Image = rm;
-                if (selectBox != null)
+                if (selectBox != null) //image preview in sbox
                 {
                     if (selectBox.Width > 2 && selectBox.Height > 2)
                     {
@@ -879,10 +940,13 @@ namespace SpeedyPhotoEditor
             layerContainer.RowStyles.Add(new RowStyle(temp.SizeType, temp.Height));
             //add your three controls
             layerContainer.Controls.Add(new CheckBox(), 0, layerContainer.RowCount - 1);
-            layerContainer.Controls.Add(new PictureBox() { Image = img, Size = new Size(36,36) }, 1, layerContainer.RowCount - 1);
+            layerContainer.Controls.Add(new PictureBox() { Image = img, Size = new Size(36,36), SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage }, 1, layerContainer.RowCount - 1);
             layerContainer.Controls.Add(new Label() { Text = path }, 2, layerContainer.RowCount - 1);
         }
-
+        protected void Visibility(object sender, EventArgs e)
+        {
+            pic.Controls.Clear();
+        }
         private void backgroundButton_Click(object sender, EventArgs e)
         {
             backgroundButton.BackColor = brush.Color;

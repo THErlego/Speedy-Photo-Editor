@@ -34,11 +34,24 @@
             this.selectionStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.msg = new System.Windows.Forms.ToolStripStatusLabel();
             this.ToolBar = new System.Windows.Forms.ToolStrip();
+            this.newButton = new System.Windows.Forms.ToolStripButton();
+            this.openButton = new System.Windows.Forms.ToolStripButton();
+            this.saveButton = new System.Windows.Forms.ToolStripButton();
+            this.saveAsButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.brushButton = new System.Windows.Forms.ToolStripButton();
+            this.selectButton = new System.Windows.Forms.ToolStripButton();
+            this.pickerButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.cropButton = new System.Windows.Forms.ToolStripButton();
+            this.rotate90Button = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.backgroundButton = new System.Windows.Forms.ToolStripButton();
+            this.layerCheck = new System.Windows.Forms.ToolStripButton();
+            this.debugButton = new System.Windows.Forms.ToolStripButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pic = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.brushTrack = new System.Windows.Forms.TrackBar();
             this.brushTxt = new System.Windows.Forms.TextBox();
@@ -46,6 +59,9 @@
             this.layerContainer = new System.Windows.Forms.TableLayoutPanel();
             this.layerNameHeader = new System.Windows.Forms.Label();
             this.layerPicHeader = new System.Windows.Forms.Label();
+            this.DB2 = new System.Windows.Forms.PictureBox();
+            this.DB1 = new System.Windows.Forms.PictureBox();
+            this.DB = new System.Windows.Forms.PictureBox();
             this.SwatchContainer = new System.Windows.Forms.Panel();
             this.swatch4 = new System.Windows.Forms.Button();
             this.swatch3 = new System.Windows.Forms.Button();
@@ -61,40 +77,24 @@
             this.greenTrack = new System.Windows.Forms.TrackBar();
             this.brushShape = new System.Windows.Forms.ComboBox();
             this.previewBox = new System.Windows.Forms.PictureBox();
-            this.pic = new System.Windows.Forms.PictureBox();
-            this.DB2 = new System.Windows.Forms.PictureBox();
-            this.DB1 = new System.Windows.Forms.PictureBox();
-            this.DB = new System.Windows.Forms.PictureBox();
-            this.newButton = new System.Windows.Forms.ToolStripButton();
-            this.openButton = new System.Windows.Forms.ToolStripButton();
-            this.saveButton = new System.Windows.Forms.ToolStripButton();
-            this.saveAsButton = new System.Windows.Forms.ToolStripButton();
-            this.brushButton = new System.Windows.Forms.ToolStripButton();
-            this.selectButton = new System.Windows.Forms.ToolStripButton();
-            this.pickerButton = new System.Windows.Forms.ToolStripButton();
-            this.cropButton = new System.Windows.Forms.ToolStripButton();
-            this.rotate90Button = new System.Windows.Forms.ToolStripButton();
-            this.backgroundButton = new System.Windows.Forms.ToolStripButton();
-            this.layerCheck = new System.Windows.Forms.ToolStripButton();
-            this.debugButton = new System.Windows.Forms.ToolStripButton();
             this.StatusBar.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.brushTrack)).BeginInit();
             this.panel2.SuspendLayout();
             this.layerContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DB2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB)).BeginInit();
             this.SwatchContainer.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.blueTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.redTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.greenTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.previewBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB)).BeginInit();
             this.SuspendLayout();
             // 
             // StatusBar
@@ -160,27 +160,159 @@
             this.ToolBar.TabIndex = 1;
             this.ToolBar.Text = "toolStrip1";
             // 
+            // newButton
+            // 
+            this.newButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.newButton.Image = global::SpeedyPhotoEditor.Properties.Resources.file;
+            this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(28, 28);
+            this.newButton.Text = "New";
+            this.newButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.newButton_MouseUp);
+            this.newButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.newButton_MouseDown);
+            // 
+            // openButton
+            // 
+            this.openButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openButton.Image = global::SpeedyPhotoEditor.Properties.Resources.upload;
+            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openButton.Name = "openButton";
+            this.openButton.Size = new System.Drawing.Size(28, 28);
+            this.openButton.Text = "Open";
+            this.openButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openButton_MouseUp);
+            this.openButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.openButton_MouseDown);
+            // 
+            // saveButton
+            // 
+            this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveButton.Image = global::SpeedyPhotoEditor.Properties.Resources.save;
+            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(28, 28);
+            this.saveButton.Text = "Save";
+            this.saveButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseUp);
+            this.saveButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseDown);
+            // 
+            // saveAsButton
+            // 
+            this.saveAsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveAsButton.Image = global::SpeedyPhotoEditor.Properties.Resources.saveas;
+            this.saveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveAsButton.Name = "saveAsButton";
+            this.saveAsButton.Size = new System.Drawing.Size(28, 28);
+            this.saveAsButton.Text = "Save As";
+            this.saveAsButton.ToolTipText = "Save As";
+            this.saveAsButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.saveAsButton_MouseUp);
+            this.saveAsButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveAsButton_MouseDown);
+            // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
             this.toolStripSeparator.Size = new System.Drawing.Size(6, 31);
+            // 
+            // brushButton
+            // 
+            this.brushButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.brushButton.Image = global::SpeedyPhotoEditor.Properties.Resources.brush;
+            this.brushButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.brushButton.Name = "brushButton";
+            this.brushButton.Size = new System.Drawing.Size(28, 28);
+            this.brushButton.Text = "Brush";
+            this.brushButton.ToolTipText = "Brush";
+            this.brushButton.Click += new System.EventHandler(this.brushButton_Click);
+            // 
+            // selectButton
+            // 
+            this.selectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.selectButton.Image = global::SpeedyPhotoEditor.Properties.Resources.selectsel;
+            this.selectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.selectButton.Name = "selectButton";
+            this.selectButton.Size = new System.Drawing.Size(28, 28);
+            this.selectButton.Text = "Select";
+            this.selectButton.ToolTipText = "Select";
+            this.selectButton.Click += new System.EventHandler(this.selectButton_Click);
+            // 
+            // pickerButton
+            // 
+            this.pickerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.pickerButton.Image = global::SpeedyPhotoEditor.Properties.Resources.picker;
+            this.pickerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.pickerButton.Name = "pickerButton";
+            this.pickerButton.Size = new System.Drawing.Size(28, 28);
+            this.pickerButton.Text = "Color Picker";
+            this.pickerButton.Click += new System.EventHandler(this.pickerButton_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
+            // cropButton
+            // 
+            this.cropButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.cropButton.Image = global::SpeedyPhotoEditor.Properties.Resources.crop;
+            this.cropButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cropButton.Name = "cropButton";
+            this.cropButton.Size = new System.Drawing.Size(28, 28);
+            this.cropButton.Text = "Crop To Selection";
+            this.cropButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.cropButton_MouseUp);
+            this.cropButton.Click += new System.EventHandler(this.cropButton_Click);
+            // 
+            // rotate90Button
+            // 
+            this.rotate90Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.rotate90Button.Image = global::SpeedyPhotoEditor.Properties.Resources.rotate90;
+            this.rotate90Button.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rotate90Button.Name = "rotate90Button";
+            this.rotate90Button.Size = new System.Drawing.Size(28, 28);
+            this.rotate90Button.Text = "Rotate 90 Degrees";
+            this.rotate90Button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.rotate90Button_MouseUp);
+            this.rotate90Button.Click += new System.EventHandler(this.Rotate90_Click);
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 31);
+            // 
+            // backgroundButton
+            // 
+            this.backgroundButton.BackColor = System.Drawing.Color.Transparent;
+            this.backgroundButton.BackgroundImage = global::SpeedyPhotoEditor.Properties.Resources.bg1;
+            this.backgroundButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.backgroundButton.Image = global::SpeedyPhotoEditor.Properties.Resources.bg;
+            this.backgroundButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.backgroundButton.Name = "backgroundButton";
+            this.backgroundButton.Size = new System.Drawing.Size(28, 28);
+            this.backgroundButton.Text = "Background Color";
+            this.backgroundButton.Click += new System.EventHandler(this.backgroundButton_Click);
+            // 
+            // layerCheck
+            // 
+            this.layerCheck.Image = global::SpeedyPhotoEditor.Properties.Resources.cl;
+            this.layerCheck.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.layerCheck.Name = "layerCheck";
+            this.layerCheck.Size = new System.Drawing.Size(140, 28);
+            this.layerCheck.Text = "Layer added images";
+            this.layerCheck.ToolTipText = "Layer added images";
+            this.layerCheck.Click += new System.EventHandler(this.layerCheck_Click);
+            // 
+            // debugButton
+            // 
+            this.debugButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.debugButton.Image = global::SpeedyPhotoEditor.Properties.Resources.magic;
+            this.debugButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.debugButton.Name = "debugButton";
+            this.debugButton.Size = new System.Drawing.Size(28, 28);
+            this.debugButton.Text = "toolStripButton1";
+            this.debugButton.ToolTipText = "debugButton";
+            this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 214F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 216F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 1);
@@ -202,8 +334,22 @@
             this.panel1.Location = new System.Drawing.Point(7, 49);
             this.panel1.Margin = new System.Windows.Forms.Padding(5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(554, 405);
+            this.panel1.Size = new System.Drawing.Size(552, 405);
             this.panel1.TabIndex = 0;
+            // 
+            // pic
+            // 
+            this.pic.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.pic.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.pic.Location = new System.Drawing.Point(0, 0);
+            this.pic.Margin = new System.Windows.Forms.Padding(0);
+            this.pic.Name = "pic";
+            this.pic.Size = new System.Drawing.Size(437, 309);
+            this.pic.TabIndex = 0;
+            this.pic.TabStop = false;
+            this.pic.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pic_MouseMove);
+            this.pic.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pic_MouseDown);
+            this.pic.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_MouseUp);
             // 
             // tableLayoutPanel2
             // 
@@ -219,7 +365,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(564, 40);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(562, 40);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // brushTrack
@@ -231,7 +377,7 @@
             this.brushTrack.Maximum = 100;
             this.brushTrack.Minimum = 1;
             this.brushTrack.Name = "brushTrack";
-            this.brushTrack.Size = new System.Drawing.Size(529, 40);
+            this.brushTrack.Size = new System.Drawing.Size(527, 40);
             this.brushTrack.TabIndex = 0;
             this.brushTrack.Value = 1;
             this.brushTrack.Scroll += new System.EventHandler(this.brushTrack_Scroll);
@@ -258,10 +404,10 @@
             this.panel2.Controls.Add(this.SwatchContainer);
             this.panel2.Controls.Add(this.tableLayoutPanel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(568, 44);
+            this.panel2.Location = new System.Drawing.Point(566, 44);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(214, 415);
+            this.panel2.Size = new System.Drawing.Size(216, 415);
             this.panel2.TabIndex = 2;
             // 
             // layerContainer
@@ -303,6 +449,38 @@
             this.layerPicHeader.Size = new System.Drawing.Size(40, 16);
             this.layerPicHeader.TabIndex = 0;
             this.layerPicHeader.Text = "Thumb";
+            // 
+            // DB2
+            // 
+            this.DB2.BackColor = System.Drawing.Color.Transparent;
+            this.DB2.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
+            this.DB2.Location = new System.Drawing.Point(0, 368);
+            this.DB2.Name = "DB2";
+            this.DB2.Size = new System.Drawing.Size(46, 47);
+            this.DB2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DB2.TabIndex = 4;
+            this.DB2.TabStop = false;
+            // 
+            // DB1
+            // 
+            this.DB1.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
+            this.DB1.Location = new System.Drawing.Point(90, 368);
+            this.DB1.Name = "DB1";
+            this.DB1.Size = new System.Drawing.Size(47, 49);
+            this.DB1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DB1.TabIndex = 3;
+            this.DB1.TabStop = false;
+            // 
+            // DB
+            // 
+            this.DB.BackColor = System.Drawing.Color.Transparent;
+            this.DB.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
+            this.DB.Location = new System.Drawing.Point(43, 368);
+            this.DB.Name = "DB";
+            this.DB.Size = new System.Drawing.Size(47, 47);
+            this.DB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.DB.TabIndex = 2;
+            this.DB.TabStop = false;
             // 
             // SwatchContainer
             // 
@@ -385,7 +563,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(214, 114);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(216, 114);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // blueTrack
@@ -396,7 +574,7 @@
             this.blueTrack.Margin = new System.Windows.Forms.Padding(0);
             this.blueTrack.Maximum = 255;
             this.blueTrack.Name = "blueTrack";
-            this.blueTrack.Size = new System.Drawing.Size(179, 38);
+            this.blueTrack.Size = new System.Drawing.Size(181, 38);
             this.blueTrack.TabIndex = 5;
             this.blueTrack.Scroll += new System.EventHandler(this.blueTrack_Scroll);
             // 
@@ -447,7 +625,7 @@
             this.redTrack.Margin = new System.Windows.Forms.Padding(0);
             this.redTrack.Maximum = 255;
             this.redTrack.Name = "redTrack";
-            this.redTrack.Size = new System.Drawing.Size(179, 38);
+            this.redTrack.Size = new System.Drawing.Size(181, 38);
             this.redTrack.TabIndex = 3;
             this.redTrack.Scroll += new System.EventHandler(this.redTrack_Scroll);
             // 
@@ -459,7 +637,7 @@
             this.greenTrack.Margin = new System.Windows.Forms.Padding(0);
             this.greenTrack.Maximum = 255;
             this.greenTrack.Name = "greenTrack";
-            this.greenTrack.Size = new System.Drawing.Size(179, 38);
+            this.greenTrack.Size = new System.Drawing.Size(181, 38);
             this.greenTrack.TabIndex = 4;
             this.greenTrack.Scroll += new System.EventHandler(this.greenTrack_Scroll);
             // 
@@ -470,7 +648,7 @@
             "Line",
             "Circle",
             "Diamond"});
-            this.brushShape.Location = new System.Drawing.Point(571, 12);
+            this.brushShape.Location = new System.Drawing.Point(569, 12);
             this.brushShape.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.brushShape.Name = "brushShape";
             this.brushShape.Size = new System.Drawing.Size(194, 21);
@@ -487,184 +665,6 @@
             this.previewBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.previewBox.TabIndex = 3;
             this.previewBox.TabStop = false;
-            // 
-            // pic
-            // 
-            this.pic.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.pic.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.pic.Location = new System.Drawing.Point(0, 0);
-            this.pic.Margin = new System.Windows.Forms.Padding(0);
-            this.pic.Name = "pic";
-            this.pic.Size = new System.Drawing.Size(437, 309);
-            this.pic.TabIndex = 0;
-            this.pic.TabStop = false;
-            this.pic.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pic_MouseMove);
-            this.pic.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pic_MouseDown);
-            this.pic.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pic_MouseUp);
-            // 
-            // DB2
-            // 
-            this.DB2.BackColor = System.Drawing.Color.Transparent;
-            this.DB2.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
-            this.DB2.Location = new System.Drawing.Point(0, 368);
-            this.DB2.Name = "DB2";
-            this.DB2.Size = new System.Drawing.Size(46, 47);
-            this.DB2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.DB2.TabIndex = 4;
-            this.DB2.TabStop = false;
-            // 
-            // DB1
-            // 
-            this.DB1.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
-            this.DB1.Location = new System.Drawing.Point(90, 368);
-            this.DB1.Name = "DB1";
-            this.DB1.Size = new System.Drawing.Size(47, 49);
-            this.DB1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.DB1.TabIndex = 3;
-            this.DB1.TabStop = false;
-            // 
-            // DB
-            // 
-            this.DB.BackColor = System.Drawing.Color.Transparent;
-            this.DB.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
-            this.DB.Location = new System.Drawing.Point(43, 368);
-            this.DB.Name = "DB";
-            this.DB.Size = new System.Drawing.Size(47, 47);
-            this.DB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.DB.TabIndex = 2;
-            this.DB.TabStop = false;
-            // 
-            // newButton
-            // 
-            this.newButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newButton.Image = global::SpeedyPhotoEditor.Properties.Resources.file;
-            this.newButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.newButton.Name = "newButton";
-            this.newButton.Size = new System.Drawing.Size(28, 28);
-            this.newButton.Text = "New";
-            this.newButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.newButton_MouseUp);
-            this.newButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.newButton_MouseDown);
-            // 
-            // openButton
-            // 
-            this.openButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openButton.Image = global::SpeedyPhotoEditor.Properties.Resources.upload;
-            this.openButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openButton.Name = "openButton";
-            this.openButton.Size = new System.Drawing.Size(28, 28);
-            this.openButton.Text = "Open";
-            this.openButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.openButton_MouseUp);
-            this.openButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.openButton_MouseDown);
-            // 
-            // saveButton
-            // 
-            this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveButton.Image = global::SpeedyPhotoEditor.Properties.Resources.save;
-            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(28, 28);
-            this.saveButton.Text = "Save";
-            this.saveButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseUp);
-            this.saveButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveButton_MouseDown);
-            // 
-            // saveAsButton
-            // 
-            this.saveAsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveAsButton.Image = global::SpeedyPhotoEditor.Properties.Resources.saveas;
-            this.saveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveAsButton.Name = "saveAsButton";
-            this.saveAsButton.Size = new System.Drawing.Size(28, 28);
-            this.saveAsButton.Text = "Save As";
-            this.saveAsButton.ToolTipText = "Save As";
-            this.saveAsButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.saveAsButton_MouseUp);
-            this.saveAsButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.saveAsButton_MouseDown);
-            // 
-            // brushButton
-            // 
-            this.brushButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.brushButton.Image = global::SpeedyPhotoEditor.Properties.Resources.brush;
-            this.brushButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.brushButton.Name = "brushButton";
-            this.brushButton.Size = new System.Drawing.Size(28, 28);
-            this.brushButton.Text = "Brush";
-            this.brushButton.ToolTipText = "Brush";
-            this.brushButton.Click += new System.EventHandler(this.brushButton_Click);
-            // 
-            // selectButton
-            // 
-            this.selectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.selectButton.Image = global::SpeedyPhotoEditor.Properties.Resources.selectsel;
-            this.selectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.selectButton.Name = "selectButton";
-            this.selectButton.Size = new System.Drawing.Size(28, 28);
-            this.selectButton.Text = "Select";
-            this.selectButton.ToolTipText = "Select";
-            this.selectButton.Click += new System.EventHandler(this.selectButton_Click);
-            // 
-            // pickerButton
-            // 
-            this.pickerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.pickerButton.Image = global::SpeedyPhotoEditor.Properties.Resources.picker;
-            this.pickerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.pickerButton.Name = "pickerButton";
-            this.pickerButton.Size = new System.Drawing.Size(28, 28);
-            this.pickerButton.Text = "Color Picker";
-            this.pickerButton.Click += new System.EventHandler(this.pickerButton_Click);
-            // 
-            // cropButton
-            // 
-            this.cropButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.cropButton.Image = global::SpeedyPhotoEditor.Properties.Resources.crop;
-            this.cropButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cropButton.Name = "cropButton";
-            this.cropButton.Size = new System.Drawing.Size(28, 28);
-            this.cropButton.Text = "Crop To Selection";
-            this.cropButton.MouseUp += new System.Windows.Forms.MouseEventHandler(this.cropButton_MouseUp);
-            this.cropButton.Click += new System.EventHandler(this.cropButton_Click);
-            // 
-            // rotate90Button
-            // 
-            this.rotate90Button.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rotate90Button.Image = global::SpeedyPhotoEditor.Properties.Resources.rotate90;
-            this.rotate90Button.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.rotate90Button.Name = "rotate90Button";
-            this.rotate90Button.Size = new System.Drawing.Size(28, 28);
-            this.rotate90Button.Text = "Rotate 90 Degrees";
-            this.rotate90Button.MouseUp += new System.Windows.Forms.MouseEventHandler(this.rotate90Button_MouseUp);
-            this.rotate90Button.Click += new System.EventHandler(this.Rotate90_Click);
-            // 
-            // backgroundButton
-            // 
-            this.backgroundButton.BackColor = System.Drawing.Color.Transparent;
-            this.backgroundButton.BackgroundImage = global::SpeedyPhotoEditor.Properties.Resources.bg1;
-            this.backgroundButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.backgroundButton.Image = global::SpeedyPhotoEditor.Properties.Resources.bg;
-            this.backgroundButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.backgroundButton.Name = "backgroundButton";
-            this.backgroundButton.Size = new System.Drawing.Size(28, 28);
-            this.backgroundButton.Text = "Background Color";
-            this.backgroundButton.Click += new System.EventHandler(this.backgroundButton_Click);
-            // 
-            // layerCheck
-            // 
-            this.layerCheck.Image = global::SpeedyPhotoEditor.Properties.Resources.cl;
-            this.layerCheck.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.layerCheck.Name = "layerCheck";
-            this.layerCheck.Size = new System.Drawing.Size(140, 28);
-            this.layerCheck.Text = "Layer added images";
-            this.layerCheck.ToolTipText = "Layer added images";
-            this.layerCheck.Click += new System.EventHandler(this.layerCheck_Click);
-            // 
-            // debugButton
-            // 
-            this.debugButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.debugButton.Image = global::SpeedyPhotoEditor.Properties.Resources.magic;
-            this.debugButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.debugButton.Name = "debugButton";
-            this.debugButton.Size = new System.Drawing.Size(28, 28);
-            this.debugButton.Text = "toolStripButton1";
-            this.debugButton.ToolTipText = "debugButton";
-            this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
             // 
             // Form1
             // 
@@ -688,12 +688,16 @@
             this.ToolBar.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pic)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.brushTrack)).EndInit();
             this.panel2.ResumeLayout(false);
             this.layerContainer.ResumeLayout(false);
             this.layerContainer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DB2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DB)).EndInit();
             this.SwatchContainer.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
@@ -701,10 +705,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.redTrack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.greenTrack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.previewBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
