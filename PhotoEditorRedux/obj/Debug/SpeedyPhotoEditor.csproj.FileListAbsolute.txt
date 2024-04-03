@@ -6,3 +6,11 @@ C:\Users\legos\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEdito
 C:\Users\legos\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.Form1.resources
 C:\Users\legos\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.Properties.Resources.resources
 C:\Users\legos\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.csproj.GenerateResource.Cache
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\Speedy Photo Editor.exe
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\Speedy Photo Editor.pdb
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\bin\Debug\Speedy Photo Editor.exe
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\bin\Debug\Speedy Photo Editor.pdb
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.Form1.resources
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.Properties.Resources.resources
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.csproj.GenerateResource.Cache
