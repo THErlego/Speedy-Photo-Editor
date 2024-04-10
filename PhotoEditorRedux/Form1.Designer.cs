@@ -118,9 +118,11 @@
             // 
             // canvasStatus
             // 
+            this.canvasStatus.DoubleClickEnabled = true;
             this.canvasStatus.Name = "canvasStatus";
             this.canvasStatus.Size = new System.Drawing.Size(110, 17);
             this.canvasStatus.Text = "Canvas size: 0 x 0px";
+            this.canvasStatus.DoubleClick += new System.EventHandler(this.canvasStatus_DoubleClick);
             // 
             // selectionStatus
             // 
@@ -312,7 +314,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 216F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 202F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 1);
@@ -334,7 +336,7 @@
             this.panel1.Location = new System.Drawing.Point(7, 49);
             this.panel1.Margin = new System.Windows.Forms.Padding(5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(552, 405);
+            this.panel1.Size = new System.Drawing.Size(566, 405);
             this.panel1.TabIndex = 0;
             // 
             // pic
@@ -365,7 +367,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(562, 40);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(576, 40);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // brushTrack
@@ -377,7 +379,7 @@
             this.brushTrack.Maximum = 100;
             this.brushTrack.Minimum = 1;
             this.brushTrack.Name = "brushTrack";
-            this.brushTrack.Size = new System.Drawing.Size(527, 40);
+            this.brushTrack.Size = new System.Drawing.Size(541, 40);
             this.brushTrack.TabIndex = 0;
             this.brushTrack.Value = 1;
             this.brushTrack.Scroll += new System.EventHandler(this.brushTrack_Scroll);
@@ -404,10 +406,10 @@
             this.panel2.Controls.Add(this.SwatchContainer);
             this.panel2.Controls.Add(this.tableLayoutPanel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(566, 44);
+            this.panel2.Location = new System.Drawing.Point(580, 44);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(216, 415);
+            this.panel2.Size = new System.Drawing.Size(202, 415);
             this.panel2.TabIndex = 2;
             // 
             // layerContainer
@@ -427,6 +429,7 @@
             this.layerContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.layerContainer.Size = new System.Drawing.Size(194, 201);
             this.layerContainer.TabIndex = 5;
+            this.layerContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.layerContainer_MouseDown);
             // 
             // layerNameHeader
             // 
@@ -563,7 +566,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(216, 114);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(202, 114);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // blueTrack
@@ -574,7 +577,7 @@
             this.blueTrack.Margin = new System.Windows.Forms.Padding(0);
             this.blueTrack.Maximum = 255;
             this.blueTrack.Name = "blueTrack";
-            this.blueTrack.Size = new System.Drawing.Size(181, 38);
+            this.blueTrack.Size = new System.Drawing.Size(167, 38);
             this.blueTrack.TabIndex = 5;
             this.blueTrack.Scroll += new System.EventHandler(this.blueTrack_Scroll);
             // 
@@ -625,7 +628,7 @@
             this.redTrack.Margin = new System.Windows.Forms.Padding(0);
             this.redTrack.Maximum = 255;
             this.redTrack.Name = "redTrack";
-            this.redTrack.Size = new System.Drawing.Size(181, 38);
+            this.redTrack.Size = new System.Drawing.Size(167, 38);
             this.redTrack.TabIndex = 3;
             this.redTrack.Scroll += new System.EventHandler(this.redTrack_Scroll);
             // 
@@ -637,7 +640,7 @@
             this.greenTrack.Margin = new System.Windows.Forms.Padding(0);
             this.greenTrack.Maximum = 255;
             this.greenTrack.Name = "greenTrack";
-            this.greenTrack.Size = new System.Drawing.Size(181, 38);
+            this.greenTrack.Size = new System.Drawing.Size(167, 38);
             this.greenTrack.TabIndex = 4;
             this.greenTrack.Scroll += new System.EventHandler(this.greenTrack_Scroll);
             // 
@@ -647,8 +650,9 @@
             this.brushShape.Items.AddRange(new object[] {
             "Line",
             "Circle",
-            "Diamond"});
-            this.brushShape.Location = new System.Drawing.Point(569, 12);
+            "Diamond",
+            "Spraypaint"});
+            this.brushShape.Location = new System.Drawing.Point(583, 12);
             this.brushShape.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.brushShape.Name = "brushShape";
             this.brushShape.Size = new System.Drawing.Size(194, 21);

@@ -14,3 +14,4 @@ C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditor
 C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.Form1.resources
 C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.Properties.Resources.resources
 C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.csproj.GenerateResource.Cache
+C:\Users\Bill\Documents\Visual Studio 2008\Projects\PhotoEditorRedux\PhotoEditorRedux\obj\Debug\SpeedyPhotoEditor.ResizeForm.resources

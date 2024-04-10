@@ -13,12 +13,11 @@ namespace SpeedyPhotoEditor
     {
         public Form1()
         {
-            InitializeComponent();
-            //config load
-            configLoad();
-            bm = new Bitmap(pic.Width, pic.Height);
-            g = Graphics.FromImage(bm);
-            pic.Image = bm;
+            InitializeComponent(); //create UI
+            configLoad(); //config load
+            bm = new Bitmap(pic.Width, pic.Height); //blank image
+            g = Graphics.FromImage(bm); //allows draw/select tool to work
+            pic.Image = bm; //sets canvas to blank image
             canvasStatus.Text = "Canvas size: " + pic.Width + " x " + pic.Height + "px";
             layerContainer.RowCount = 1; //add row code only works if init components starts at 2?????
             
@@ -28,24 +27,23 @@ namespace SpeedyPhotoEditor
         Bitmap rm; //saved image
         Bitmap dim;//temp crop image
         Graphics g;
-        Graphics SelectedGraphics = null;
-        Bitmap SelectedImage = null;
-        private Form1 _instance = null;
-        int select = 1;
-        bool md = false;
-        bool shiftHold = false;
-        bool controlHold = false;
-        bool layerMode = true;
+        Graphics SelectedGraphics = null; //for selection
+        Bitmap SelectedImage = null; //for selection
+        private Form1 _instance = null; //for new button
+        int select = 1; //default selected tool 0=draw, 1=select, 2=eyedropper
+        bool md = false; //mouse down
+        bool shiftHold = false; //shift down
+        bool layerMode = true; //layer checkbox switch
         //Pen Tool
-        int re,gr,bl = 0;
-        int alpha = 255;
-        Point px, py;
-        Pen brush = new Pen(Color.FromArgb(255, 0, 0, 0), 1);
-        SolidBrush brushFill = new SolidBrush(Color.FromArgb(255, 0, 0, 0));
+        int re,gr,bl = 0; //color slider vars
+        int alpha = 255; //transparency value (always 100%)
+        Point px, py; //mouse location when clicking down
+        Pen brush = new Pen(Color.FromArgb(255, 0, 0, 0), 1); //brush outer section, color | width
+        SolidBrush brushFill = new SolidBrush(Color.FromArgb(255, 0, 0, 0)); //brush inner fill, color
 
-        SpeedyPhotoEditor.IniFile settings = new IniFile("Settings.ini");
+        SpeedyPhotoEditor.IniFile settings = new IniFile("Settings.ini"); //init settings
 
-        public void configCreate()
+        public void configCreate() //create settings file if unavailable
         {
             settings.Write("Canvas_Width", "400", "Canvas");
             settings.Write("Canvas_Height", "400", "Canvas");
@@ -54,13 +52,15 @@ namespace SpeedyPhotoEditor
             settings.Write("Red", "0", "Color");
             settings.Write("Green", "0", "Color");
             settings.Write("Blue", "0", "Color");
+            settings.Write("Keep_Ratio", "False", "Resize");
+            settings.Write("Keep_Resize", "True", "Resize");
             //settings.Write("s4", "0", "Color");
             //settings.Write("s3", "0", "Color");
             //settings.Write("s2", "0", "Color");
             //settings.Write("s1", "0", "Color");
             //settings.Write("s0", "0", "Color");
         }
-        public void configLoad()
+        public void configLoad() //load settings file
         {
 
             try
@@ -80,6 +80,8 @@ namespace SpeedyPhotoEditor
                 Color col = Color.FromArgb(alpha, redTrack.Value, greenTrack.Value, blueTrack.Value);
                 brushFill.Color = col;
                 brush.Color = col;
+                string krtmp = settings.Read("Keep_Ratio", "Resize"); //will never be used
+                string krztmp = settings.Read("Keep_Resize", "Resize"); //will never be used
                 
             }
             catch
@@ -90,11 +92,11 @@ namespace SpeedyPhotoEditor
         //KEYS
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.KeyPreview = true;
+            this.KeyPreview = true; //reads key inputs
         }
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e) //single activation when held down
         {
-            if (e.KeyChar == 27) // esc
+            if (e.KeyChar == 27) // escape
             {
                 if (!md) return;
                 md = false;
@@ -105,62 +107,56 @@ namespace SpeedyPhotoEditor
                 pic.Image = rm;
                 pic.Refresh();
             }
-            if (e.KeyChar == 102) // f
+            if (e.KeyChar == 102) // shortcut to toggle between modes
             {
                 if (select == 0) //paint
                 {
-                    
-                    brushButton.Image = Properties.Resources.brush;
-                    selectButton.Image = Properties.Resources.selectsel;
-                    pickerButton.Image = Properties.Resources.picker;
-                    select = 1;
+
+                    changeMenuButton(1);
                 }
                 else if (select == 1) //select
                 {
-                    brushButton.Image = Properties.Resources.brush;
-                    selectButton.Image = Properties.Resources.select;
-                    pickerButton.Image = Properties.Resources.pickersel;
-                    select = 2;
+                    changeMenuButton(2);
                 }
                 else if (select == 2) //pick
                 {
-                    brushButton.Image = Properties.Resources.brushsel;
-                    selectButton.Image = Properties.Resources.select;
-                    pickerButton.Image = Properties.Resources.picker;
-                    select = 0;
+                    changeMenuButton(0);
                 }
             }
-            if (e.KeyChar == 8 && select == 1) // 
-            {
-                g.DrawRectangle(new Pen(Color.White), new Rectangle(20, 20, 20, 20));
-                
-            }
-            if (e.KeyChar == 99 && controlHold == true && SelectedImage != null)
-            {
-                
-                
-            }
         }
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e) //rapidfire activates as key is held
         {
             if (e.KeyValue == 16) //shift
             {
                 shiftHold = true;
             }
+            if (e.KeyData == (Keys.Add)) //make brush bigger
+            {
+                brushTrack.Value++;
+                brushTxt.Text = "" + brushTrack.Value;
+                brush.Width = brushTrack.Value;
+                settings.Write("Brush_Width", brush.Width + "", "Brush");
+            }
+            if (e.KeyData == (Keys.Subtract)) //make brush smaller
+            {
+                brushTrack.Value--;
+                brushTxt.Text = "" + brushTrack.Value;
+                brush.Width = brushTrack.Value;
+                settings.Write("Brush_Width", brush.Width + "", "Brush");
+            }
         }
-
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        private void Form1_KeyUp(object sender, KeyEventArgs e) //activates after last keydown
         {
             if (e.KeyValue == 16) //shift
             {
                 shiftHold = false;
             }
-            if (e.KeyData == (Keys.C | Keys.Control)) //CTRL C
+            if (e.KeyData == (Keys.C | Keys.Control)) //CTRL C / copy
             {
                 Clipboard.SetImage(dim);
                 e.Handled = true;
             }
-            if (e.KeyData == (Keys.V | Keys.Control)) //CTRL V
+            if (e.KeyData == (Keys.V | Keys.Control)) //CTRL V / paste
             {
                 try
                 {
@@ -173,7 +169,7 @@ namespace SpeedyPhotoEditor
                 }
                 e.Handled = true;
             }
-            if (e.KeyData == (Keys.A | Keys.Control)) //CTRL A
+            if (e.KeyData == (Keys.A | Keys.Control)) //CTRL A / select all
             {
                 SelectedImage = null;
                 SelectedGraphics = null;
@@ -186,43 +182,59 @@ namespace SpeedyPhotoEditor
                 ImageScale = 1.0f;
                 e.Handled = true;
             }
+
         }
-        
+        //selection changer
+        private void changeMenuButton(int num)
+        {
+            switch (num)
+            {
+                case 0:
+                    brushButton.Image = Properties.Resources.brushsel;
+                    selectButton.Image = Properties.Resources.select;
+                    pickerButton.Image = Properties.Resources.picker;
+                    select = 0;
+                    break;
+                case 1:
+                    brushButton.Image = Properties.Resources.brush;
+                    selectButton.Image = Properties.Resources.selectsel;
+                    pickerButton.Image = Properties.Resources.picker;
+                    select = 1;
+                    break;
+                case 2:
+                    brushButton.Image = Properties.Resources.brush;
+                    selectButton.Image = Properties.Resources.select;
+                    pickerButton.Image = Properties.Resources.pickersel;
+                    select = 2;
+                    break;
+            }
+        }
         //BRUSH
         private void brushButton_Click(object sender, EventArgs e)
         {
-            brushButton.Image = Properties.Resources.brushsel;
-            selectButton.Image = Properties.Resources.select;
-            pickerButton.Image = Properties.Resources.picker;
-            select = 0;
+            changeMenuButton(0);
         }
-
         //SELECT
         private void selectButton_Click(object sender, EventArgs e)
         {
-            brushButton.Image = Properties.Resources.brush;
-            selectButton.Image = Properties.Resources.selectsel;
-            pickerButton.Image = Properties.Resources.picker;
-            select = 1;
+            changeMenuButton(1);
         }
         //PICKER
         private void pickerButton_Click(object sender, EventArgs e)
         {
-            brushButton.Image = Properties.Resources.brush;
-            selectButton.Image = Properties.Resources.select;
-            pickerButton.Image = Properties.Resources.pickersel;
-            select = 2;
+            changeMenuButton(2);
         }
-        //NEW
+
+
+
+        //NEW WINDOW
         private void newButton_MouseDown(object sender, MouseEventArgs e)
         {
-
             newButton.Image = Properties.Resources.filesel;
             if (_instance == null)
             {
                 _instance = new Form1();
                 _instance.Show();
-                
             }
             else
             {
@@ -230,10 +242,12 @@ namespace SpeedyPhotoEditor
             }
         }
 
+
+
         //OPEN
-        bool imgFirst = false;
-        String filePath, fileName;
-        bool imgDrop = false;
+        bool imgFirst = false; //first inserted image flag
+        String filePath, fileName; //EX: C:\users\admin\pictures\bob.png, bob.png
+        bool imgDrop = false; //inserting image flag, disables other actions
         private void openButton_MouseDown(object sender, MouseEventArgs e)
         {
             openButton.Image = Properties.Resources.uploadsel;
@@ -258,9 +272,9 @@ namespace SpeedyPhotoEditor
                 {
                     try
                     {
-                        pic.Size = Image.FromFile(filePath).Size;
-                        rm = new Bitmap(bm, new Size(Image.FromFile(filePath).Width, Image.FromFile(filePath).Height));
-                        pic.Image = rm;
+                        pic.Size = Image.FromFile(filePath).Size; //resize canvas
+                        rm = new Bitmap(bm, new Size(Image.FromFile(filePath).Width, Image.FromFile(filePath).Height)); //new base image
+                        pic.Image = rm; 
                         g = Graphics.FromImage(rm);
                         imgFirst = true;
                         g.DrawImage(Bitmap.FromFile(filePath), 0, 0);
@@ -268,8 +282,7 @@ namespace SpeedyPhotoEditor
                     }
                     catch
                     {
-                        msg.Text = "Image Cancelled";
-                        
+                        msg.Text = "Image Cancelled"; 
                     }
                 }
                 else //2+ image inserts
@@ -284,8 +297,6 @@ namespace SpeedyPhotoEditor
                     {
                         msg.Text = "Image Cancelled";
                     }
-                    
-
                     canvasStatus.Text = "Canvas size: " + pic.Width + " x " + pic.Height + "px";
                 }
                 settings.Write("Canvas_Width", pic.Width + "", "Canvas");
@@ -294,9 +305,11 @@ namespace SpeedyPhotoEditor
             }
         }
 
+
+
         //SAVE
         String saveloc = "";
-        public void saveFile()
+        public void saveFile() //opens save dialog
         {
             SaveFileDialog save = new SaveFileDialog();
             save.Filter = "PNG(*.PNG)|*.png";
@@ -308,7 +321,7 @@ namespace SpeedyPhotoEditor
                 Text = saveloc;
             }
         }
-        private void saveButton_MouseDown(object sender, MouseEventArgs e)
+        private void saveButton_MouseDown(object sender, MouseEventArgs e) //opens save dialog if not yet saved, then just saves file in background
         {
             saveButton.Image = Properties.Resources.savesel;
             if (saveloc == "")
@@ -321,12 +334,17 @@ namespace SpeedyPhotoEditor
             }
         }
         
+
+
         //SAVEAS
-        private void saveAsButton_MouseDown(object sender, MouseEventArgs e)
+        private void saveAsButton_MouseDown(object sender, MouseEventArgs e) //always opens save dialog
         {
             saveAsButton.Image = Properties.Resources.saveassel;
             saveFile();
         }
+
+
+
         //CROP TO SELECTION
         private void cropButton_Click(object sender, EventArgs e)
         {
@@ -337,11 +355,18 @@ namespace SpeedyPhotoEditor
                 rm = dim;
                 pic.Size = selectBox.Size;
                 pic.Image = rm;
+                SelectedImage = null;
+                SelectedGraphics = null;
+                createSelection(MakeRectangle(0, 0, 0, 0));
                 canvasStatus.Text = "Canvas size: " + pic.Width + " x " + pic.Height + "px";
+                g = Graphics.FromImage(rm);
                 pic.Refresh();
             }
         }
-        //ROTATE 90
+
+
+
+        //ROTATE 90 DEGREES
         private Bitmap ModifiedBitmap(Image original_image, RotateFlipType rotate_flip_type)
         {
             // Copy the Bitmap.
@@ -363,23 +388,26 @@ namespace SpeedyPhotoEditor
                 selectBox.Width = hei;
                 selectBox.Height = wid;
                 selectBox.Image = ModifiedBitmap(selectBox.Image, RotateFlipType.Rotate90FlipNone);
-                dim = ModifiedBitmap(dim, RotateFlipType.Rotate90FlipNone);
+                dim = ModifiedBitmap(dim, RotateFlipType.Rotate90FlipNone); //makes dim the rotated image
                 selectBox.Refresh();
             }
         }
+
+
+
         //BRUSH WIDTH
         private void brushTxt_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
-                e.Handled = true;
+                e.Handled = true; //removes non numerics from textboxes
             }
         }
         private void brushTxt_TextChanged(object sender, EventArgs e)
         {
-            if (brushTxt.Text != "")
+            if (brushTxt.Text != "") //blank text is ignored
             {
-                if (Int16.Parse(brushTxt.Text) <= 100)
+                if (Int16.Parse(brushTxt.Text) <= 100) //100 is max limit of slider
                 {
                     brushTrack.Value = Int16.Parse(brushTxt.Text);
                     brush.Width = brushTrack.Value;
@@ -398,12 +426,17 @@ namespace SpeedyPhotoEditor
             brush.Width = brushTrack.Value;
             settings.Write("Brush_Width", brush.Width + "", "Brush");
         }
-        //BRUSH TYPE
 
+
+
+        //BRUSH TYPE
         private void brushShape_SelectedIndexChanged(object sender, EventArgs e)
         {
             settings.Write("Brush_Type", brushShape.Text, "Brush");
         }
+
+
+
         //LAYER CHECKBOX
         private void layerCheck_Click(object sender, EventArgs e)
         {
@@ -418,7 +451,10 @@ namespace SpeedyPhotoEditor
                 layerCheck.Image = Properties.Resources.cl;
             }
         }
-        //MOUSEUP STYLES
+
+
+
+        //MAKE ICONS NOT BLUE AFTER CLICKING
         private void newButton_MouseUp(object sender, MouseEventArgs e)
         {
             newButton.Image = Properties.Resources.file;
@@ -445,7 +481,7 @@ namespace SpeedyPhotoEditor
         }
 
         //CANVAS PICTURE
-        int dx, dy, mx, my;
+        int dx, dy, mx, my; //d is location as mouse down, m is location as mouse moves
         private void pic_MouseDown(object sender, MouseEventArgs e)
         {
             DB.Image = pic.Image;
@@ -456,24 +492,25 @@ namespace SpeedyPhotoEditor
             py = e.Location;
             if (imgDrop) //inserting image
             {
-                if (layerMode) //new layer
+                if (layerMode) //for when layer toggle is on
                 {
                     AddItem(Bitmap.FromFile(filePath), fileName);
                     Bitmap lyrbmp = new Bitmap(Bitmap.FromFile(filePath), Bitmap.FromFile(filePath).Size);
                     pic.Controls.Add(new PictureBox() 
                     {
                         Image = lyrbmp,
-                        Size = Bitmap.FromFile(filePath).Size
+                        Size = Bitmap.FromFile(filePath).Size,
+                        Location = new Point(dx, dy)
                     });
                     
                 }
-                else //normal
+                else //no layer toggle
                 {
                     g.DrawImage(Bitmap.FromFile(filePath), dx, dy);
                 }
                 
                 pic.Refresh();
-                if (shiftHold) { return; }
+                if (shiftHold) { return; } //if you are holding shift, it repeats the above section
                 imgDrop = false;
                 msg.Text = "";
                 previewBox.Image = null;
@@ -485,13 +522,19 @@ namespace SpeedyPhotoEditor
                 {
                     g.DrawLine(brush, px, py);
                     px = e.Location;
-                    pic.Refresh();
+                    
                 }
+                else if (selectBox == null || selectBox.Width < 2 && selectBox.Height < 2)
+                {
+                    px = e.Location;
+                    lilBrushes(g);
+                }
+                pic.Refresh();
             }
             else if (select == 1) //select
             {
                 if (rm == null) { rm = bm;  }
-                if (selectBox != null && selectBox.Width > 1)
+                if (selectBox != null && selectBox.Width > 2)
                 {
                     dim = new Bitmap(dim, selectBox.Size);
                 }
@@ -513,7 +556,6 @@ namespace SpeedyPhotoEditor
                     gr = rm.GetPixel(dx, dy).G;
                     bl = rm.GetPixel(dx, dy).B;
                 }
-                
                 redTrack.Value = re;
                 greenTrack.Value = gr;
                 blueTrack.Value = bl;
@@ -540,7 +582,15 @@ namespace SpeedyPhotoEditor
             //this is for inserting image
             if (imgDrop)
             {
-                selectionStatus.Text = "Inserting: " + Image.FromFile(filePath).Width + " x " + Image.FromFile(filePath).Height + "px";
+                try
+                {
+                    selectionStatus.Text = "Inserting: " + Image.FromFile(filePath).Width + " x " + Image.FromFile(filePath).Height + "px";
+                }
+                catch
+                {
+                    msg.Text = "Image Cancelled";
+                }
+
             }
             //all below is for dragging select box OR brush tool
             if (!md) return;
@@ -582,6 +632,18 @@ namespace SpeedyPhotoEditor
             {
                 g.DrawEllipse(brush, (mx), (my), 1, 1);
                 g.FillRectangle(brushFill, new Rectangle(mx - (int)(brush.Width / 3), my - (int)(brush.Width / 3), (int)(brush.Width / 1.5), (int)(brush.Width / 1.5)));
+            }
+            else if (brushShape.Text == "Spraypaint")
+            {
+                var ran = new Random();
+                var bw = (int)brush.Width;
+                for( int i = 0; i < brush.Width/4; i++)
+                {
+                    g.FillEllipse(brushFill, (mx + ran.Next(bw)), (my + ran.Next(bw)),2,2);
+                    g.FillEllipse(brushFill, (mx - ran.Next(bw)), (my + ran.Next(bw)),2,2);
+                    g.FillEllipse(brushFill, (mx + ran.Next(bw)), (my - ran.Next(bw)),2,2);
+                    g.FillEllipse(brushFill, (mx - ran.Next(bw)), (my - ran.Next(bw)),2,2);
+                }
             }
             py = px;
         }
@@ -720,8 +782,10 @@ namespace SpeedyPhotoEditor
             ey = 0;
             sx = 0;
             sy = 0;
-            
         }
+
+
+
         //SCROLLS
         private int ImageWidth, ImageHeight;
         private float ImageScale = 1.0f;
@@ -744,30 +808,30 @@ namespace SpeedyPhotoEditor
 
 
         //COLORS
+        private void colorMod()
+        {
+            Color col = Color.FromArgb(alpha, re, gr, bl); //creates var COLOR
+            brush.Color = col; //sets brush to color
+            brushFill.Color = col;
+        }
         private void redTrack_Scroll(object sender, EventArgs e)
         {
             re = redTrack.Value;
-            Color col = Color.FromArgb(alpha, re, gr, bl);
-            brush.Color = col;
-            brushFill.Color = col;
+            colorMod();
             redTxt.Text = re + "";
             settings.Write("Red", re + "", "Color");
         }
         private void greenTrack_Scroll(object sender, EventArgs e)
         {
             gr = greenTrack.Value;
-            Color col = Color.FromArgb(alpha, re, gr, bl);
-            brush.Color = col;
-            brushFill.Color = col;
+            colorMod();
             greenTxt.Text = gr + "";
             settings.Write("Green", gr + "", "Color");
         }
         private void blueTrack_Scroll(object sender, EventArgs e)
         {
             bl = blueTrack.Value;
-            Color col = Color.FromArgb(alpha, re, gr, bl);
-            brush.Color = col;
-            brushFill.Color = col;
+            colorMod();
             blueTxt.Text = bl + "";
             settings.Write("Blue", bl + "", "Color");
         }
@@ -780,9 +844,7 @@ namespace SpeedyPhotoEditor
             }
             re = Int16.Parse(redTxt.Text);
             redTrack.Value = re;
-            Color col = Color.FromArgb(alpha, re, gr, bl);
-            brush.Color = col;
-            brushFill.Color = col;
+            colorMod();
             settings.Write("Red", re + "", "Color");
         }
         private void redTxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -801,9 +863,7 @@ namespace SpeedyPhotoEditor
             }
             gr = Int16.Parse(greenTxt.Text);
             greenTrack.Value = gr;
-            Color col = Color.FromArgb(alpha, re, gr, bl);
-            brush.Color = col;
-            brushFill.Color = col;
+            colorMod();
             settings.Write("Green", gr + "", "Color");
         }
         private void greenTxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -822,9 +882,7 @@ namespace SpeedyPhotoEditor
             }
             bl = Int16.Parse(blueTxt.Text);
             blueTrack.Value = bl;
-            Color col = Color.FromArgb(alpha, re, gr, bl);
-            brush.Color = col;
-            brushFill.Color = col;
+            colorMod();
             settings.Write("Blue", bl + "", "Color");
         }
         private void blueTxt_KeyPress(object sender, KeyPressEventArgs e)
@@ -834,6 +892,8 @@ namespace SpeedyPhotoEditor
                 e.Handled = true;
             }
         }
+
+
 
         // SWATCH COLORS
         public void swatch(Color inColor)
@@ -865,9 +925,8 @@ namespace SpeedyPhotoEditor
             }
             
         }
-        private void swatch0_Click(object sender, EventArgs e)
+        private void swatch_Click(Color a)
         {
-            var a = swatch0.BackColor;
             brush.Color = a;
             brushFill.Color = a;
             redTrack.Value = a.R;
@@ -876,60 +935,43 @@ namespace SpeedyPhotoEditor
             redTxt.Text = a.R + "";
             greenTxt.Text = a.G + "";
             blueTxt.Text = a.B + "";
+        }
+        private void swatch0_Click(object sender, EventArgs e)
+        {
+            Color a = swatch0.BackColor;
+            swatch_Click(a);
         }
         private void swatch1_Click(object sender, EventArgs e)
         {
             var a = swatch1.BackColor;
-            brush.Color = a;
-            brushFill.Color = a;
-            redTrack.Value = a.R;
-            greenTrack.Value = a.G;
-            blueTrack.Value = a.B;
-            redTxt.Text = a.R + "";
-            greenTxt.Text = a.G + "";
-            blueTxt.Text = a.B + "";
+            swatch_Click(a);
         }
         private void swatch2_Click(object sender, EventArgs e)
         {
             var a = swatch2.BackColor;
-            brush.Color = a;
-            brushFill.Color = a;
-            redTrack.Value = a.R;
-            greenTrack.Value = a.G;
-            blueTrack.Value = a.B;
-            redTxt.Text = a.R + "";
-            greenTxt.Text = a.G + "";
-            blueTxt.Text = a.B + "";
+            swatch_Click(a);
         }
         private void swatch3_Click(object sender, EventArgs e)
         {
             var a = swatch3.BackColor;
-            brush.Color = a;
-            brushFill.Color = a;
-            redTrack.Value = a.R;
-            greenTrack.Value = a.G;
-            blueTrack.Value = a.B;
-            redTxt.Text = a.R + "";
-            greenTxt.Text = a.G + "";
-            blueTxt.Text = a.B + "";
+            swatch_Click(a);
         }
         private void swatch4_Click(object sender, EventArgs e)
         {
             var a = swatch4.BackColor;
-            brush.Color = a;
-            brushFill.Color = a;
-            redTrack.Value = a.R;
-            greenTrack.Value = a.G;
-            blueTrack.Value = a.B;
-            redTxt.Text = a.R + "";
-            greenTxt.Text = a.G + "";
-            blueTxt.Text = a.B + "";
+            swatch_Click(a);
         }
+
+
+        //RED BUTTON
         private void debugButton_Click(object sender, EventArgs e)
         {
             AddItem(Properties.Resources.uploadsel, "lol");
-            
         }
+
+
+
+        //LAYERS UI
         private void AddItem(Image img, String path)
         {
             //get a reference to the previous existent 
@@ -952,6 +994,75 @@ namespace SpeedyPhotoEditor
             backgroundButton.BackColor = brush.Color;
             pic.BackColor = brush.Color;
         }
+        //LAYERS UI LOGIC
+        private void layerContainer_MouseDown(object sender, MouseEventArgs e)
+        {
+            int laynum = e.Y / (layerContainer.Height / layerContainer.RowCount);
+        }
+
+
+
+
+        //resize canvas
+        private void canvasStatus_DoubleClick(object sender, EventArgs e)
+        {
+            float aspectRatio = (float)pic.Width / (float)pic.Height;
+
+            using (ResizeForm dialogForm = new ResizeForm(pic.Width, pic.Height, aspectRatio))
+            {
+                DialogResult dr = dialogForm.ShowDialog(this);
+                if (dr == DialogResult.OK)
+                {
+                    int we = dialogForm.getWidth();
+                    int he = dialogForm.getHeight();
+                    pic.Width = we;
+                    pic.Height = he;
+                    settings.Write("Canvas_Width", we + "", "Canvas");
+                    settings.Write("Canvas_Height", he + "", "Canvas");
+                    canvasStatus.Text = "Canvas size: " + we + " x " + he + "px";
+
+                    if (dialogForm.getResizeStatus()) //if resize checkbox is checked
+                    {
+                        if (rm == null)
+                        {
+                            bm = new Bitmap(bm, we, he);
+                            pic.Image = bm;
+                            g = Graphics.FromImage(bm); //reminder to draw
+                        }
+                        else
+                        {
+                            rm = new Bitmap(rm, we, he);
+                            pic.Image = rm;
+                            g = Graphics.FromImage(rm); //reminder to draw
+                        }
+                        
+                        pic.Refresh();
+                    }
+                    else
+                    {
+                        Image taste;
+                        if (rm == null)
+                        {
+                            taste = bm;
+                            rm = new Bitmap(bm, we, he);
+                        }
+                        else
+                        {
+                            taste = rm;
+                            rm = new Bitmap(rm, we, he);
+                        }
+                        g = Graphics.FromImage(rm);
+                        g.Clear(Color.Transparent);
+                        g.DrawImageUnscaled(taste,0,0, taste.Width, taste.Height);
+                        pic.Image = rm;
+                    }
+                    
+                }
+                dialogForm.Close();
+            }
+        }
+
+        
 
         
 
