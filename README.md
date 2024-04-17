@@ -1,4 +1,5 @@
 Edits pictures
+Built on VS2008
 
 default settings:
 <code>
