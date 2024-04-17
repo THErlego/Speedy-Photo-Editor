@@ -146,6 +146,7 @@
     <None Include="ClassDiagram1.cd" />
     <None Include="Resources\crop1.png" />
     <Content Include="Resources\cropsel.png" />
+    <None Include="Resources\tile.png" />
     <None Include="Resources\magic.png" />
     <None Include="Resources\pickersel.png" />
     <None Include="Resources\picker.png" />

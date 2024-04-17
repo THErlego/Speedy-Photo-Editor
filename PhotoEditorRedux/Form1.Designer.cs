@@ -77,6 +77,7 @@
             this.greenTrack = new System.Windows.Forms.TrackBar();
             this.brushShape = new System.Windows.Forms.ComboBox();
             this.previewBox = new System.Windows.Forms.PictureBox();
+            this.deselectLayer = new System.Windows.Forms.Button();
             this.StatusBar.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -285,7 +286,7 @@
             this.backgroundButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.backgroundButton.Name = "backgroundButton";
             this.backgroundButton.Size = new System.Drawing.Size(28, 28);
-            this.backgroundButton.Text = "Background Color";
+            this.backgroundButton.Text = "Background Preview Color";
             this.backgroundButton.Click += new System.EventHandler(this.backgroundButton_Click);
             // 
             // layerCheck
@@ -305,8 +306,9 @@
             this.debugButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.debugButton.Name = "debugButton";
             this.debugButton.Size = new System.Drawing.Size(28, 28);
-            this.debugButton.Text = "toolStripButton1";
+            this.debugButton.Text = "magic";
             this.debugButton.ToolTipText = "debugButton";
+            this.debugButton.Visible = false;
             this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
             // 
             // tableLayoutPanel1
@@ -314,7 +316,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 202F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 214F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 1);
@@ -336,12 +338,17 @@
             this.panel1.Location = new System.Drawing.Point(7, 49);
             this.panel1.Margin = new System.Windows.Forms.Padding(5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(566, 405);
+            this.panel1.Size = new System.Drawing.Size(554, 405);
             this.panel1.TabIndex = 0;
+            this.panel1.MouseLeave += new System.EventHandler(this.panel1_MouseLeave);
+            this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseDown);
+            this.panel1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseUp);
             // 
             // pic
             // 
             this.pic.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.pic.BackgroundImage = global::SpeedyPhotoEditor.Properties.Resources.tile;
             this.pic.Cursor = System.Windows.Forms.Cursors.Cross;
             this.pic.Location = new System.Drawing.Point(0, 0);
             this.pic.Margin = new System.Windows.Forms.Padding(0);
@@ -367,7 +374,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(576, 40);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(564, 40);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // brushTrack
@@ -379,8 +386,9 @@
             this.brushTrack.Maximum = 100;
             this.brushTrack.Minimum = 1;
             this.brushTrack.Name = "brushTrack";
-            this.brushTrack.Size = new System.Drawing.Size(541, 40);
+            this.brushTrack.Size = new System.Drawing.Size(529, 40);
             this.brushTrack.TabIndex = 0;
+            this.brushTrack.TabStop = false;
             this.brushTrack.Value = 1;
             this.brushTrack.Scroll += new System.EventHandler(this.brushTrack_Scroll);
             // 
@@ -392,13 +400,14 @@
             this.brushTxt.MaxLength = 3;
             this.brushTxt.Name = "brushTxt";
             this.brushTxt.Size = new System.Drawing.Size(35, 20);
-            this.brushTxt.TabIndex = 1;
+            this.brushTxt.TabIndex = 0;
             this.brushTxt.Text = "1";
             this.brushTxt.TextChanged += new System.EventHandler(this.brushTxt_TextChanged);
             this.brushTxt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.brushTxt_KeyPress);
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.deselectLayer);
             this.panel2.Controls.Add(this.layerContainer);
             this.panel2.Controls.Add(this.DB2);
             this.panel2.Controls.Add(this.DB1);
@@ -406,10 +415,10 @@
             this.panel2.Controls.Add(this.SwatchContainer);
             this.panel2.Controls.Add(this.tableLayoutPanel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(580, 44);
+            this.panel2.Location = new System.Drawing.Point(568, 44);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(202, 415);
+            this.panel2.Size = new System.Drawing.Size(214, 415);
             this.panel2.TabIndex = 2;
             // 
             // layerContainer
@@ -463,6 +472,7 @@
             this.DB2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.DB2.TabIndex = 4;
             this.DB2.TabStop = false;
+            this.DB2.Visible = false;
             // 
             // DB1
             // 
@@ -473,6 +483,7 @@
             this.DB1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.DB1.TabIndex = 3;
             this.DB1.TabStop = false;
+            this.DB1.Visible = false;
             // 
             // DB
             // 
@@ -484,6 +495,7 @@
             this.DB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.DB.TabIndex = 2;
             this.DB.TabStop = false;
+            this.DB.Visible = false;
             // 
             // SwatchContainer
             // 
@@ -566,7 +578,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(202, 114);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(214, 114);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // blueTrack
@@ -577,8 +589,9 @@
             this.blueTrack.Margin = new System.Windows.Forms.Padding(0);
             this.blueTrack.Maximum = 255;
             this.blueTrack.Name = "blueTrack";
-            this.blueTrack.Size = new System.Drawing.Size(167, 38);
-            this.blueTrack.TabIndex = 5;
+            this.blueTrack.Size = new System.Drawing.Size(179, 38);
+            this.blueTrack.TabIndex = 0;
+            this.blueTrack.TabStop = false;
             this.blueTrack.Scroll += new System.EventHandler(this.blueTrack_Scroll);
             // 
             // redTxt
@@ -628,8 +641,9 @@
             this.redTrack.Margin = new System.Windows.Forms.Padding(0);
             this.redTrack.Maximum = 255;
             this.redTrack.Name = "redTrack";
-            this.redTrack.Size = new System.Drawing.Size(167, 38);
-            this.redTrack.TabIndex = 3;
+            this.redTrack.Size = new System.Drawing.Size(179, 38);
+            this.redTrack.TabIndex = 0;
+            this.redTrack.TabStop = false;
             this.redTrack.Scroll += new System.EventHandler(this.redTrack_Scroll);
             // 
             // greenTrack
@@ -640,24 +654,25 @@
             this.greenTrack.Margin = new System.Windows.Forms.Padding(0);
             this.greenTrack.Maximum = 255;
             this.greenTrack.Name = "greenTrack";
-            this.greenTrack.Size = new System.Drawing.Size(167, 38);
-            this.greenTrack.TabIndex = 4;
+            this.greenTrack.Size = new System.Drawing.Size(179, 38);
+            this.greenTrack.TabIndex = 0;
+            this.greenTrack.TabStop = false;
             this.greenTrack.Scroll += new System.EventHandler(this.greenTrack_Scroll);
             // 
             // brushShape
             // 
+            this.brushShape.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.brushShape.FormattingEnabled = true;
             this.brushShape.Items.AddRange(new object[] {
             "Line",
             "Circle",
             "Diamond",
             "Spraypaint"});
-            this.brushShape.Location = new System.Drawing.Point(583, 12);
+            this.brushShape.Location = new System.Drawing.Point(571, 12);
             this.brushShape.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.brushShape.Name = "brushShape";
             this.brushShape.Size = new System.Drawing.Size(194, 21);
-            this.brushShape.TabIndex = 3;
-            this.brushShape.Text = "Line";
+            this.brushShape.TabIndex = 0;
             this.brushShape.SelectedIndexChanged += new System.EventHandler(this.brushShape_SelectedIndexChanged);
             // 
             // previewBox
@@ -669,6 +684,16 @@
             this.previewBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.previewBox.TabIndex = 3;
             this.previewBox.TabStop = false;
+            // 
+            // deselectLayer
+            // 
+            this.deselectLayer.Location = new System.Drawing.Point(136, 368);
+            this.deselectLayer.Name = "deselectLayer";
+            this.deselectLayer.Size = new System.Drawing.Size(60, 23);
+            this.deselectLayer.TabIndex = 6;
+            this.deselectLayer.Text = "Deselect";
+            this.deselectLayer.UseVisualStyleBackColor = true;
+            this.deselectLayer.Click += new System.EventHandler(this.deselectLayer_Click);
             // 
             // Form1
             // 
@@ -765,6 +790,7 @@
         private System.Windows.Forms.ToolStripButton layerCheck;
         private System.Windows.Forms.ToolStripButton pickerButton;
         private System.Windows.Forms.ToolStripButton backgroundButton;
+        private System.Windows.Forms.Button deselectLayer;
     }
 }
 

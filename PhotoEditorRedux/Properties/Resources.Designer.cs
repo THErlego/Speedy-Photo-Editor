@@ -214,6 +214,13 @@ namespace SpeedyPhotoEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap tile {
+            get {
+                object obj = ResourceManager.GetObject("tile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap uncl {
             get {
                 object obj = ResourceManager.GetObject("uncl", resourceCulture);
