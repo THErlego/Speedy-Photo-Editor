@@ -42,6 +42,7 @@
             this.brushButton = new System.Windows.Forms.ToolStripButton();
             this.selectButton = new System.Windows.Forms.ToolStripButton();
             this.pickerButton = new System.Windows.Forms.ToolStripButton();
+            this.eraseButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.cropButton = new System.Windows.Forms.ToolStripButton();
             this.rotate90Button = new System.Windows.Forms.ToolStripButton();
@@ -59,16 +60,14 @@
             this.layerContainer = new System.Windows.Forms.TableLayoutPanel();
             this.layerNameHeader = new System.Windows.Forms.Label();
             this.layerPicHeader = new System.Windows.Forms.Label();
-            this.DB2 = new System.Windows.Forms.PictureBox();
-            this.DB1 = new System.Windows.Forms.PictureBox();
-            this.DB = new System.Windows.Forms.PictureBox();
             this.SwatchContainer = new System.Windows.Forms.Panel();
+            this.deselectLayer = new System.Windows.Forms.Button();
             this.swatch4 = new System.Windows.Forms.Button();
             this.swatch3 = new System.Windows.Forms.Button();
             this.swatch2 = new System.Windows.Forms.Button();
             this.swatch1 = new System.Windows.Forms.Button();
             this.swatch0 = new System.Windows.Forms.Button();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.colorHolder = new System.Windows.Forms.TableLayoutPanel();
             this.blueTrack = new System.Windows.Forms.TrackBar();
             this.redTxt = new System.Windows.Forms.TextBox();
             this.greenTxt = new System.Windows.Forms.TextBox();
@@ -77,7 +76,9 @@
             this.greenTrack = new System.Windows.Forms.TrackBar();
             this.brushShape = new System.Windows.Forms.ComboBox();
             this.previewBox = new System.Windows.Forms.PictureBox();
-            this.deselectLayer = new System.Windows.Forms.Button();
+            this.picv = new System.Windows.Forms.PictureBox();
+            this.sboxv = new System.Windows.Forms.PictureBox();
+            this.rmv = new System.Windows.Forms.PictureBox();
             this.StatusBar.SuspendLayout();
             this.ToolBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -87,20 +88,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.brushTrack)).BeginInit();
             this.panel2.SuspendLayout();
             this.layerContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DB2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB)).BeginInit();
             this.SwatchContainer.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
+            this.colorHolder.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.blueTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.redTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.greenTrack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.previewBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sboxv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rmv)).BeginInit();
             this.SuspendLayout();
             // 
             // StatusBar
             // 
-            this.StatusBar.BackColor = System.Drawing.Color.LightGray;
+            this.StatusBar.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.StatusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.posStatus,
             this.canvasStatus,
@@ -138,7 +139,7 @@
             // 
             // ToolBar
             // 
-            this.ToolBar.BackColor = System.Drawing.Color.LightGray;
+            this.ToolBar.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.ToolBar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ToolBar.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.ToolBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -150,6 +151,7 @@
             this.brushButton,
             this.selectButton,
             this.pickerButton,
+            this.eraseButton,
             this.toolStripSeparator1,
             this.cropButton,
             this.rotate90Button,
@@ -245,6 +247,16 @@
             this.pickerButton.Text = "Color Picker";
             this.pickerButton.Click += new System.EventHandler(this.pickerButton_Click);
             // 
+            // eraseButton
+            // 
+            this.eraseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.eraseButton.Image = global::SpeedyPhotoEditor.Properties.Resources.erase;
+            this.eraseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.eraseButton.Name = "eraseButton";
+            this.eraseButton.Size = new System.Drawing.Size(28, 28);
+            this.eraseButton.Text = "Erase";
+            this.eraseButton.Click += new System.EventHandler(this.eraseButton_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -283,7 +295,7 @@
             this.backgroundButton.BackgroundImage = global::SpeedyPhotoEditor.Properties.Resources.bg1;
             this.backgroundButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.backgroundButton.Image = global::SpeedyPhotoEditor.Properties.Resources.bg;
-            this.backgroundButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.backgroundButton.ImageTransparentColor = System.Drawing.SystemColors.ScrollBar;
             this.backgroundButton.Name = "backgroundButton";
             this.backgroundButton.Size = new System.Drawing.Size(28, 28);
             this.backgroundButton.Text = "Background Preview Color";
@@ -292,7 +304,7 @@
             // layerCheck
             // 
             this.layerCheck.Image = global::SpeedyPhotoEditor.Properties.Resources.cl;
-            this.layerCheck.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.layerCheck.ImageTransparentColor = System.Drawing.SystemColors.ScrollBar;
             this.layerCheck.Name = "layerCheck";
             this.layerCheck.Size = new System.Drawing.Size(140, 28);
             this.layerCheck.Text = "Layer added images";
@@ -308,7 +320,6 @@
             this.debugButton.Size = new System.Drawing.Size(28, 28);
             this.debugButton.Text = "magic";
             this.debugButton.ToolTipText = "debugButton";
-            this.debugButton.Visible = false;
             this.debugButton.Click += new System.EventHandler(this.debugButton_Click);
             // 
             // tableLayoutPanel1
@@ -316,7 +327,7 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 214F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 204F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 1);
@@ -338,7 +349,7 @@
             this.panel1.Location = new System.Drawing.Point(7, 49);
             this.panel1.Margin = new System.Windows.Forms.Padding(5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(554, 405);
+            this.panel1.Size = new System.Drawing.Size(564, 405);
             this.panel1.TabIndex = 0;
             this.panel1.MouseLeave += new System.EventHandler(this.panel1_MouseLeave);
             this.panel1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseMove);
@@ -353,7 +364,7 @@
             this.pic.Location = new System.Drawing.Point(0, 0);
             this.pic.Margin = new System.Windows.Forms.Padding(0);
             this.pic.Name = "pic";
-            this.pic.Size = new System.Drawing.Size(437, 309);
+            this.pic.Size = new System.Drawing.Size(400, 400);
             this.pic.TabIndex = 0;
             this.pic.TabStop = false;
             this.pic.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pic_MouseMove);
@@ -374,7 +385,7 @@
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(564, 40);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(574, 40);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // brushTrack
@@ -386,7 +397,7 @@
             this.brushTrack.Maximum = 100;
             this.brushTrack.Minimum = 1;
             this.brushTrack.Name = "brushTrack";
-            this.brushTrack.Size = new System.Drawing.Size(529, 40);
+            this.brushTrack.Size = new System.Drawing.Size(539, 40);
             this.brushTrack.TabIndex = 0;
             this.brushTrack.TabStop = false;
             this.brushTrack.Value = 1;
@@ -407,18 +418,14 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.deselectLayer);
             this.panel2.Controls.Add(this.layerContainer);
-            this.panel2.Controls.Add(this.DB2);
-            this.panel2.Controls.Add(this.DB1);
-            this.panel2.Controls.Add(this.DB);
             this.panel2.Controls.Add(this.SwatchContainer);
-            this.panel2.Controls.Add(this.tableLayoutPanel3);
+            this.panel2.Controls.Add(this.colorHolder);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(568, 44);
+            this.panel2.Location = new System.Drawing.Point(578, 44);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(214, 415);
+            this.panel2.Size = new System.Drawing.Size(204, 415);
             this.panel2.TabIndex = 2;
             // 
             // layerContainer
@@ -431,12 +438,13 @@
             this.layerContainer.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.layerContainer.Controls.Add(this.layerNameHeader, 2, 0);
             this.layerContainer.Controls.Add(this.layerPicHeader, 1, 0);
-            this.layerContainer.Location = new System.Drawing.Point(3, 161);
+            this.layerContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.layerContainer.Location = new System.Drawing.Point(0, 177);
             this.layerContainer.Name = "layerContainer";
             this.layerContainer.RowCount = 2;
-            this.layerContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
             this.layerContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.layerContainer.Size = new System.Drawing.Size(194, 201);
+            this.layerContainer.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.layerContainer.Size = new System.Drawing.Size(204, 238);
             this.layerContainer.TabIndex = 5;
             this.layerContainer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.layerContainer_MouseDown);
             // 
@@ -447,7 +455,7 @@
             this.layerNameHeader.Location = new System.Drawing.Point(66, 2);
             this.layerNameHeader.Margin = new System.Windows.Forms.Padding(0);
             this.layerNameHeader.Name = "layerNameHeader";
-            this.layerNameHeader.Size = new System.Drawing.Size(126, 16);
+            this.layerNameHeader.Size = new System.Drawing.Size(136, 40);
             this.layerNameHeader.TabIndex = 1;
             this.layerNameHeader.Text = "Name";
             // 
@@ -458,57 +466,35 @@
             this.layerPicHeader.Location = new System.Drawing.Point(24, 2);
             this.layerPicHeader.Margin = new System.Windows.Forms.Padding(0);
             this.layerPicHeader.Name = "layerPicHeader";
-            this.layerPicHeader.Size = new System.Drawing.Size(40, 16);
+            this.layerPicHeader.Size = new System.Drawing.Size(40, 40);
             this.layerPicHeader.TabIndex = 0;
             this.layerPicHeader.Text = "Thumb";
             // 
-            // DB2
-            // 
-            this.DB2.BackColor = System.Drawing.Color.Transparent;
-            this.DB2.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
-            this.DB2.Location = new System.Drawing.Point(0, 368);
-            this.DB2.Name = "DB2";
-            this.DB2.Size = new System.Drawing.Size(46, 47);
-            this.DB2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.DB2.TabIndex = 4;
-            this.DB2.TabStop = false;
-            this.DB2.Visible = false;
-            // 
-            // DB1
-            // 
-            this.DB1.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
-            this.DB1.Location = new System.Drawing.Point(90, 368);
-            this.DB1.Name = "DB1";
-            this.DB1.Size = new System.Drawing.Size(47, 49);
-            this.DB1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.DB1.TabIndex = 3;
-            this.DB1.TabStop = false;
-            this.DB1.Visible = false;
-            // 
-            // DB
-            // 
-            this.DB.BackColor = System.Drawing.Color.Transparent;
-            this.DB.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
-            this.DB.Location = new System.Drawing.Point(43, 368);
-            this.DB.Name = "DB";
-            this.DB.Size = new System.Drawing.Size(47, 47);
-            this.DB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.DB.TabIndex = 2;
-            this.DB.TabStop = false;
-            this.DB.Visible = false;
-            // 
             // SwatchContainer
             // 
+            this.SwatchContainer.Controls.Add(this.deselectLayer);
             this.SwatchContainer.Controls.Add(this.swatch4);
             this.SwatchContainer.Controls.Add(this.swatch3);
             this.SwatchContainer.Controls.Add(this.swatch2);
             this.SwatchContainer.Controls.Add(this.swatch1);
             this.SwatchContainer.Controls.Add(this.swatch0);
-            this.SwatchContainer.Location = new System.Drawing.Point(0, 117);
+            this.SwatchContainer.Dock = System.Windows.Forms.DockStyle.Top;
+            this.SwatchContainer.Location = new System.Drawing.Point(0, 114);
             this.SwatchContainer.Margin = new System.Windows.Forms.Padding(0);
             this.SwatchContainer.Name = "SwatchContainer";
-            this.SwatchContainer.Size = new System.Drawing.Size(200, 40);
+            this.SwatchContainer.Size = new System.Drawing.Size(204, 63);
             this.SwatchContainer.TabIndex = 1;
+            // 
+            // deselectLayer
+            // 
+            this.deselectLayer.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.deselectLayer.Location = new System.Drawing.Point(0, 40);
+            this.deselectLayer.Name = "deselectLayer";
+            this.deselectLayer.Size = new System.Drawing.Size(204, 23);
+            this.deselectLayer.TabIndex = 6;
+            this.deselectLayer.Text = "Deselect";
+            this.deselectLayer.UseVisualStyleBackColor = true;
+            this.deselectLayer.Click += new System.EventHandler(this.deselectLayer_Click);
             // 
             // swatch4
             // 
@@ -560,26 +546,26 @@
             this.swatch0.UseVisualStyleBackColor = true;
             this.swatch0.Click += new System.EventHandler(this.swatch0_Click);
             // 
-            // tableLayoutPanel3
+            // colorHolder
             // 
-            this.tableLayoutPanel3.ColumnCount = 2;
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.blueTrack, 1, 2);
-            this.tableLayoutPanel3.Controls.Add(this.redTxt, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.greenTxt, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.blueTxt, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.redTrack, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.greenTrack, 1, 1);
-            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 3;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(214, 114);
-            this.tableLayoutPanel3.TabIndex = 0;
+            this.colorHolder.ColumnCount = 2;
+            this.colorHolder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.colorHolder.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.colorHolder.Controls.Add(this.blueTrack, 1, 2);
+            this.colorHolder.Controls.Add(this.redTxt, 0, 0);
+            this.colorHolder.Controls.Add(this.greenTxt, 0, 1);
+            this.colorHolder.Controls.Add(this.blueTxt, 0, 2);
+            this.colorHolder.Controls.Add(this.redTrack, 1, 0);
+            this.colorHolder.Controls.Add(this.greenTrack, 1, 1);
+            this.colorHolder.Dock = System.Windows.Forms.DockStyle.Top;
+            this.colorHolder.Location = new System.Drawing.Point(0, 0);
+            this.colorHolder.Name = "colorHolder";
+            this.colorHolder.RowCount = 3;
+            this.colorHolder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.colorHolder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.colorHolder.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.colorHolder.Size = new System.Drawing.Size(204, 114);
+            this.colorHolder.TabIndex = 0;
             // 
             // blueTrack
             // 
@@ -589,7 +575,7 @@
             this.blueTrack.Margin = new System.Windows.Forms.Padding(0);
             this.blueTrack.Maximum = 255;
             this.blueTrack.Name = "blueTrack";
-            this.blueTrack.Size = new System.Drawing.Size(179, 38);
+            this.blueTrack.Size = new System.Drawing.Size(169, 38);
             this.blueTrack.TabIndex = 0;
             this.blueTrack.TabStop = false;
             this.blueTrack.Scroll += new System.EventHandler(this.blueTrack_Scroll);
@@ -641,7 +627,7 @@
             this.redTrack.Margin = new System.Windows.Forms.Padding(0);
             this.redTrack.Maximum = 255;
             this.redTrack.Name = "redTrack";
-            this.redTrack.Size = new System.Drawing.Size(179, 38);
+            this.redTrack.Size = new System.Drawing.Size(169, 38);
             this.redTrack.TabIndex = 0;
             this.redTrack.TabStop = false;
             this.redTrack.Scroll += new System.EventHandler(this.redTrack_Scroll);
@@ -654,7 +640,7 @@
             this.greenTrack.Margin = new System.Windows.Forms.Padding(0);
             this.greenTrack.Maximum = 255;
             this.greenTrack.Name = "greenTrack";
-            this.greenTrack.Size = new System.Drawing.Size(179, 38);
+            this.greenTrack.Size = new System.Drawing.Size(169, 38);
             this.greenTrack.TabIndex = 0;
             this.greenTrack.TabStop = false;
             this.greenTrack.Scroll += new System.EventHandler(this.greenTrack_Scroll);
@@ -668,7 +654,7 @@
             "Circle",
             "Diamond",
             "Spraypaint"});
-            this.brushShape.Location = new System.Drawing.Point(571, 12);
+            this.brushShape.Location = new System.Drawing.Point(581, 12);
             this.brushShape.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
             this.brushShape.Name = "brushShape";
             this.brushShape.Size = new System.Drawing.Size(194, 21);
@@ -677,7 +663,8 @@
             // 
             // previewBox
             // 
-            this.previewBox.BackColor = System.Drawing.Color.LightGray;
+            this.previewBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewBox.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.previewBox.Location = new System.Drawing.Point(752, 1);
             this.previewBox.Name = "previewBox";
             this.previewBox.Size = new System.Drawing.Size(30, 30);
@@ -685,15 +672,41 @@
             this.previewBox.TabIndex = 3;
             this.previewBox.TabStop = false;
             // 
-            // deselectLayer
+            // picv
             // 
-            this.deselectLayer.Location = new System.Drawing.Point(136, 368);
-            this.deselectLayer.Name = "deselectLayer";
-            this.deselectLayer.Size = new System.Drawing.Size(60, 23);
-            this.deselectLayer.TabIndex = 6;
-            this.deselectLayer.Text = "Deselect";
-            this.deselectLayer.UseVisualStyleBackColor = true;
-            this.deselectLayer.Click += new System.EventHandler(this.deselectLayer_Click);
+            this.picv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picv.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.picv.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
+            this.picv.Location = new System.Drawing.Point(693, 1);
+            this.picv.Name = "picv";
+            this.picv.Size = new System.Drawing.Size(31, 30);
+            this.picv.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picv.TabIndex = 4;
+            this.picv.TabStop = false;
+            // 
+            // sboxv
+            // 
+            this.sboxv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.sboxv.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.sboxv.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
+            this.sboxv.Location = new System.Drawing.Point(665, 1);
+            this.sboxv.Name = "sboxv";
+            this.sboxv.Size = new System.Drawing.Size(28, 30);
+            this.sboxv.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.sboxv.TabIndex = 3;
+            this.sboxv.TabStop = false;
+            // 
+            // rmv
+            // 
+            this.rmv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.rmv.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.rmv.Image = global::SpeedyPhotoEditor.Properties.Resources._936996628718563379;
+            this.rmv.Location = new System.Drawing.Point(719, 0);
+            this.rmv.Name = "rmv";
+            this.rmv.Size = new System.Drawing.Size(33, 31);
+            this.rmv.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.rmv.TabIndex = 2;
+            this.rmv.TabStop = false;
             // 
             // Form1
             // 
@@ -701,10 +714,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 514);
             this.Controls.Add(this.previewBox);
+            this.Controls.Add(this.sboxv);
+            this.Controls.Add(this.picv);
+            this.Controls.Add(this.rmv);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.ToolBar);
             this.Controls.Add(this.StatusBar);
-            this.MinimumSize = new System.Drawing.Size(200, 100);
+            this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "Form1";
             this.Text = "Speedy Photo Editor";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -724,16 +740,16 @@
             this.panel2.ResumeLayout(false);
             this.layerContainer.ResumeLayout(false);
             this.layerContainer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DB2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DB)).EndInit();
             this.SwatchContainer.ResumeLayout(false);
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
+            this.colorHolder.ResumeLayout(false);
+            this.colorHolder.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.blueTrack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.redTrack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.greenTrack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.previewBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sboxv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.rmv)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -757,7 +773,7 @@
         private System.Windows.Forms.ToolStripButton brushButton;
         private System.Windows.Forms.ToolStripButton selectButton;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel colorHolder;
         private System.Windows.Forms.TextBox redTxt;
         private System.Windows.Forms.TextBox greenTxt;
         private System.Windows.Forms.TextBox blueTxt;
@@ -774,9 +790,9 @@
         private System.Windows.Forms.Button swatch2;
         private System.Windows.Forms.Button swatch1;
         private System.Windows.Forms.ComboBox brushShape;
-        private System.Windows.Forms.PictureBox DB;
-        private System.Windows.Forms.PictureBox DB2;
-        private System.Windows.Forms.PictureBox DB1;
+        private System.Windows.Forms.PictureBox rmv;
+        private System.Windows.Forms.PictureBox picv;
+        private System.Windows.Forms.PictureBox sboxv;
         private System.Windows.Forms.ToolStripStatusLabel msg;
         private System.Windows.Forms.PictureBox previewBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -791,6 +807,7 @@
         private System.Windows.Forms.ToolStripButton pickerButton;
         private System.Windows.Forms.ToolStripButton backgroundButton;
         private System.Windows.Forms.Button deselectLayer;
+        private System.Windows.Forms.ToolStripButton eraseButton;
     }
 }
 

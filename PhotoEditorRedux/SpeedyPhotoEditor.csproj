@@ -143,9 +143,10 @@
     <None Include="Resources\bg.png" />
     <None Include="Resources\bg1.png" />
     <Content Include="Resources\crop.png" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\crop1.png" />
     <Content Include="Resources\cropsel.png" />
+    <None Include="Resources\erasesel.png" />
+    <None Include="Resources\erase.png" />
     <None Include="Resources\tile.png" />
     <None Include="Resources\magic.png" />
     <None Include="Resources\pickersel.png" />
