@@ -24,9 +24,9 @@ namespace SpeedyPhotoEditor
             
         }
 
-        Bitmap bm; //initial image
-        Bitmap rm; //saved image
-        Bitmap dim;//temp crop image
+        Bitmap bm; //no image canvas bg
+        Bitmap rm; //contains image canvas bg
+        Bitmap dim;//selection box image bg
         Graphics g;
         Graphics SelectedGraphics = null; //for selection
         Bitmap SelectedImage = null; //for selection
@@ -53,6 +53,7 @@ namespace SpeedyPhotoEditor
             settings.Write("Red", "0", "Color");
             settings.Write("Green", "0", "Color");
             settings.Write("Blue", "0", "Color");
+            settings.Write("Alpha", "255", "Color");
             settings.Write("Keep_Ratio", "False", "Resize");
             settings.Write("Keep_Resize", "True", "Resize");
             settings.Write("Layers", "True", "Layers");
@@ -70,15 +71,28 @@ namespace SpeedyPhotoEditor
                 pic.Width = Int32.Parse(settings.Read("Canvas_Width", "Canvas"));
                 pic.Height = Int32.Parse(settings.Read("Canvas_Height", "Canvas"));
                 brush.Width = Int32.Parse(settings.Read("Brush_Width", "Brush"));
-                brushTrack.Value = Int32.Parse(settings.Read("Brush_Width", "Brush"));
+                if (Int32.Parse(settings.Read("Brush_Width", "Brush")) > 100)
+                {
+                    brushTrack.Value = 100;
+                }
+                else
+                {
+                    brushTrack.Value = Int32.Parse(settings.Read("Brush_Width", "Brush"));
+                }
                 brushTxt.Text = settings.Read("Brush_Width", "Brush");
                 brushShape.Text = settings.Read("Brush_Type", "Brush");
-                redTrack.Value = Int32.Parse(settings.Read("Red", "Color"));
+                re = Int32.Parse(settings.Read("Red", "Color"));
+                redTrack.Value = re;
                 redTxt.Text = settings.Read("Red", "Color");
-                greenTrack.Value = Int32.Parse(settings.Read("Green", "Color"));
+                gr = Int32.Parse(settings.Read("Green", "Color"));
+                greenTrack.Value = gr;
                 greenTxt.Text = settings.Read("Green", "Color");
-                blueTrack.Value = Int32.Parse(settings.Read("Blue", "Color"));
+                bl = Int32.Parse(settings.Read("Blue", "Color"));
+                blueTrack.Value = bl;
                 blueTxt.Text = settings.Read("Blue", "Color");
+                alpha = Int32.Parse(settings.Read("Alpha", "Color"));
+                tpTrack.Value = alpha;
+                tpTxt.Text = settings.Read("Alpha", "Color");
                 Color col = Color.FromArgb(alpha, redTrack.Value, greenTrack.Value, blueTrack.Value);
                 brushFill.Color = col;
                 brush.Color = col;
@@ -97,6 +111,7 @@ namespace SpeedyPhotoEditor
             catch
             {
                 configCreate();
+                configLoad();
             }
         }
         //KEYS
@@ -223,6 +238,10 @@ namespace SpeedyPhotoEditor
             if (e.KeyData == Keys.Space) //allows painting with spacebar
             {
                 md = false;
+            }
+            if (e.KeyData == Keys.Delete && (selectBox.Width > 2 && selectBox.Height > 2)) //delete
+            {
+                drawRegion(Color.Transparent);
             }
 
         }
@@ -472,15 +491,35 @@ namespace SpeedyPhotoEditor
         }
 
 
-
-        //BRUSH WIDTH
-        private void brushTxt_KeyPress(object sender, KeyPressEventArgs e)
+        //INVERT SELECTION
+        private void invertButton_Click(object sender, EventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            invertButton.Image = Properties.Resources.invertsel;
+            int x = 0;
+            int y = 0;
+            if (selectBox != null && selectBox.Width > 1 && selectBox.Height > 1)
             {
-                e.Handled = true; //removes non numerics from textboxes
+                while (x < selectBox.Width)
+                {
+                    while (y < selectBox.Height)
+                    {
+                        Color selColor = dim.GetPixel(x, y);
+                        selColor = Color.FromArgb(selColor.A, Math.Abs(selColor.R - 255), Math.Abs(selColor.G - 255), Math.Abs(selColor.B - 255));
+                        dim.SetPixel(x, y, selColor);
+                        //msg.Text += selColor + " at " + x + " " + y;
+                        y++;
+                    }
+                    x++;
+                    y = 0;
+                }
+                selectBox.Refresh();
+
             }
         }
+
+
+
+        //BRUSH WIDTH
         private void brushTxt_TextChanged(object sender, EventArgs e)
         {
             if (brushTxt.Text != "") //blank text is ignored
@@ -494,7 +533,8 @@ namespace SpeedyPhotoEditor
                 else
                 {
                     brushTrack.Value = 100;
-                    brush.Width = brushTrack.Value;
+                    brush.Width = Int16.Parse(brushTxt.Text);
+                    settings.Write("Brush_Width", brush.Width + "", "Brush");
                 }
             }
         }
@@ -558,14 +598,98 @@ namespace SpeedyPhotoEditor
         {
             rotate90Button.Image = Properties.Resources.rotate90;
         }
+        private void invertButton_MouseUp(object sender, MouseEventArgs e)
+        {
+            invertButton.Image = Properties.Resources.invert;
+        }
+
+
 
         //CANVAS PICTURE
+            //FUNCTIONS
+        private void lilBrushes(Graphics g)
+        {
+
+            if (brushShape.Text == "Line")
+            {
+                g.DrawLine(brush, px, py);
+            }
+            else if (brushShape.Text == "Circle")
+            {
+                g.DrawEllipse(brush, mx, my, brush.Width / 2, brush.Width / 2);
+                g.FillEllipse(brushFill, mx, my, brush.Width / 2, brush.Width / 2);
+            }
+            else if (brushShape.Text == "Diamond")
+            {
+                g.DrawEllipse(brush, (mx), (my), 1, 1);
+                g.FillRectangle(brushFill, new Rectangle(mx - (int)(brush.Width / 3), my - (int)(brush.Width / 3), (int)(brush.Width / 1.5), (int)(brush.Width / 1.5)));
+            }
+            else if (brushShape.Text == "Spraypaint")
+            {
+                var ran = new Random();
+                var bw = (int)brush.Width;
+                for (int i = 0; i < brush.Width / 4; i++)
+                {
+                    g.FillEllipse(brushFill, (mx + ran.Next(bw)), (my + ran.Next(bw)), 2, 2);
+                    g.FillEllipse(brushFill, (mx - ran.Next(bw)), (my + ran.Next(bw)), 2, 2);
+                    g.FillEllipse(brushFill, (mx + ran.Next(bw)), (my - ran.Next(bw)), 2, 2);
+                    g.FillEllipse(brushFill, (mx - ran.Next(bw)), (my - ran.Next(bw)), 2, 2);
+                }
+            }
+            py = px;
+        } //used for brush tool
+        private void colorPick(Bitmap i)
+        {
+            if (i == null)
+            {
+                i = new Bitmap(pic.Image);
+            }
+            else
+            {
+                re = i.GetPixel(dx, dy).R;
+                gr = i.GetPixel(dx, dy).G;
+                bl = i.GetPixel(dx, dy).B;
+            }
+            redTrack.Value = re;
+            greenTrack.Value = gr;
+            blueTrack.Value = bl;
+            redTxt.Text = re + "";
+            greenTxt.Text = gr + "";
+            blueTxt.Text = bl + "";
+            Color col = Color.FromArgb(alpha, re, gr, bl);
+            brush.Color = col;
+            brushFill.Color = col;
+            select = 0;
+            brushButton.Image = Properties.Resources.brushsel;
+            selectButton.Image = Properties.Resources.select;
+            pickerButton.Image = Properties.Resources.picker;
+        } //used for color picker
+        private void drawRegion(Color inColor) //used for delete key
+        {
+            if (selLayer) { return; }
+            int x = selectBox.Location.X;
+            int y = selectBox.Location.Y;
+            dim = new Bitmap(dim.Width, dim.Height);
+            selectBox.Image = dim;
+            while (x < selectBox.Width+selectBox.Location.X) //loop on x and y axis
+            {
+                while (y < selectBox.Height + selectBox.Location.Y)
+                {
+                    if (x >= 0 && x >= 0 && x < pic.Width && y < pic.Height) { rm.SetPixel(x, y, inColor); }
+                    
+                    y++;
+                }
+                x++;
+                msg.Text = y + " " + x;
+                y = selectBox.Location.Y;
+            }
+            selectBox.Refresh();
+        }
+            //CANVAS
         int dx, dy, mx, my; //d is location as mouse down, m is location as mouse moves
         Color eraseCol; //color eraser picks when erasing
         private void pic_MouseDown(object sender, MouseEventArgs e)
         {
-            picv.Image = pic.Image; //debug feature
-            rmv.Image = rm; //debug feature
             md = true;
             dx = e.X;
             dy = e.Y;
@@ -618,31 +742,7 @@ namespace SpeedyPhotoEditor
             }
             else if (select == 2) //color pick
             {
-                if (rm == null)
-                {
-                    re = 255;
-                    gr = 255;
-                    bl = 255;
-                }
-                else
-                {
-                    re = rm.GetPixel(dx, dy).R;
-                    gr = rm.GetPixel(dx, dy).G;
-                    bl = rm.GetPixel(dx, dy).B;
-                }
-                redTrack.Value = re;
-                greenTrack.Value = gr;
-                blueTrack.Value = bl;
-                redTxt.Text = re + "";
-                greenTxt.Text = gr + "";
-                blueTxt.Text = bl + "";
-                Color col = Color.FromArgb(alpha, re, gr, bl);
-                brush.Color = col;
-                brushFill.Color = col;
-                select = 0;
-                brushButton.Image = Properties.Resources.brushsel;
-                selectButton.Image = Properties.Resources.select;
-                pickerButton.Image = Properties.Resources.picker;
+                colorPick(rm);
             }
             else if (select == 3) //erase
             {
@@ -664,8 +764,6 @@ namespace SpeedyPhotoEditor
         {
             mx = e.X;
             my = e.Y;
-            picv.Image = pic.Image; //debug feature
-            rmv.Image = rm; //debug feature
             posStatus.Text = "Position: " + e.X + "," + e.Y + "px";
             //this is for inserting image
             if (imgDrop)
@@ -695,7 +793,7 @@ namespace SpeedyPhotoEditor
                     SelectedGraphics.DrawRectangle(select_pen, rect);
                 }
 
-                pic.Refresh();
+                
             }
             else if (select == 0 && (selectBox == null || selectBox.Width < 2 && selectBox.Height < 2)) //draw
             {
@@ -709,40 +807,9 @@ namespace SpeedyPhotoEditor
             }
             pic.Refresh();
         }
-        private void lilBrushes(Graphics g)
-        {
-            
-            if (brushShape.Text == "Line")
-            {
-                g.DrawLine(brush, px, py);
-            }
-            else if (brushShape.Text == "Circle")
-            {
-                g.DrawEllipse(brush, mx, my, brush.Width / 2, brush.Width / 2);
-                g.FillEllipse(brushFill, mx, my, brush.Width / 2, brush.Width / 2);
-            }
-            else if (brushShape.Text == "Diamond")
-            {
-                g.DrawEllipse(brush, (mx), (my), 1, 1);
-                g.FillRectangle(brushFill, new Rectangle(mx - (int)(brush.Width / 3), my - (int)(brush.Width / 3), (int)(brush.Width / 1.5), (int)(brush.Width / 1.5)));
-            }
-            else if (brushShape.Text == "Spraypaint")
-            {
-                var ran = new Random();
-                var bw = (int)brush.Width;
-                for( int i = 0; i < brush.Width/4; i++)
-                {
-                    g.FillEllipse(brushFill, (mx + ran.Next(bw)), (my + ran.Next(bw)),2,2);
-                    g.FillEllipse(brushFill, (mx - ran.Next(bw)), (my + ran.Next(bw)),2,2);
-                    g.FillEllipse(brushFill, (mx + ran.Next(bw)), (my - ran.Next(bw)),2,2);
-                    g.FillEllipse(brushFill, (mx - ran.Next(bw)), (my - ran.Next(bw)),2,2);
-                }
-            }
-            py = px;
-        }
+        
         private void pic_MouseUp(object sender, MouseEventArgs e)
         {
-            rmv.Image = rm; //debug feature
             if (!md) return;
             md = false;
             if (select == 1)
@@ -781,7 +848,11 @@ namespace SpeedyPhotoEditor
 
         PictureBox selectBox;
         private Graphics DisplayGraphics;
-        public void createSelection(Rectangle selRect, Bitmap img)
+        public void createSelection() //pretty much exists to deselect
+        {
+            if (selectBox == null) { selectBox = new PictureBox(); }
+        }
+        public void createSelection(Rectangle selRect, Bitmap img) //the main one
         {
             if (selectBox == null) { selectBox = new PictureBox(); }
             selectBox.Cursor = Cursors.Hand;
@@ -800,7 +871,6 @@ namespace SpeedyPhotoEditor
                 DisplayGraphics.DrawImage(img, dest_rect, source_rect, GraphicsUnit.Pixel);
                 DisplayGraphics = Graphics.FromImage(dim);
                 selectBox.Image = dim;
-                sboxv.Image = dim; //debug feature
 
                 ImageWidth = selectBox.Image.Width;
                 ImageHeight = selectBox.Image.Height;
@@ -824,7 +894,7 @@ namespace SpeedyPhotoEditor
         }
         private void selectBox_Paint(object sender, PaintEventArgs e)
         {
-            Pen pesel = new Pen(Color.Blue, 2);
+            Pen pesel = new Pen(Color.Blue, 3);
             pesel.DashPattern = new float[] { 5, 5 };
             e.Graphics.DrawRectangle(pesel, 0, 0, selectBox.Width, selectBox.Height);
             
@@ -844,6 +914,10 @@ namespace SpeedyPhotoEditor
             {
                 swatch(brush.Color);
             }
+            else if (select == 2)
+            {
+                colorPick(dim);
+            }
         }
         protected void selectBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -851,21 +925,22 @@ namespace SpeedyPhotoEditor
             my = e.Y;
             
             if (!selectDrag) return;
-            if (select == 1)
+            if (select == 1) //select
             {
                 ex = e.X - sx;
                 ey = e.Y - sy;
-                //msg.Text = selectBox.Location.X + " " + sx + " " + ex;
             }
-
-            //draw
-            else if (select == 0)
+            else if (select == 0) //draw
             {
                 px = e.Location;
                 Graphics g = Graphics.FromImage(dim);
                 lilBrushes(g);
-                selectBox.Refresh();
-                
+                selectBox.Refresh();   
+            }
+            else if (select == 3) //erase
+            {
+                px = e.Location;
+                g.FillRectangle(new SolidBrush(eraseCol), new Rectangle(mx, my, (int)brush.Width, (int)brush.Width));
             }
 
         }
@@ -933,6 +1008,13 @@ namespace SpeedyPhotoEditor
             blueTxt.Text = bl + "";
             settings.Write("Blue", bl + "", "Color");
         }
+        private void tpTrack_Scroll(object sender, EventArgs e)
+        {
+            alpha = tpTrack.Value;
+            colorMod();
+            tpTxt.Text = alpha + "";
+            settings.Write("Alpha", alpha + "", "Color");
+        }
         private void redTxt_Leave(object sender, EventArgs e)
         {
             if (redTxt.Text == "") { return; }
@@ -944,13 +1026,6 @@ namespace SpeedyPhotoEditor
             redTrack.Value = re;
             colorMod();
             settings.Write("Red", re + "", "Color");
-        }
-        private void redTxt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
         }
         private void greenTxt_Leave(object sender, EventArgs e)
         {
@@ -964,13 +1039,6 @@ namespace SpeedyPhotoEditor
             colorMod();
             settings.Write("Green", gr + "", "Color");
         }
-        private void greenTxt_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
         private void blueTxt_Leave(object sender, EventArgs e)
         {
             if (blueTxt.Text == "") { return; }
@@ -983,16 +1051,25 @@ namespace SpeedyPhotoEditor
             colorMod();
             settings.Write("Blue", bl + "", "Color");
         }
-        private void blueTxt_KeyPress(object sender, KeyPressEventArgs e)
+        private void tpTxt_Leave(object sender, EventArgs e)
+        {
+            if (tpTxt.Text == "") { return; }
+            if (Int16.Parse(tpTxt.Text) > 255)
+            {
+                tpTxt.Text = 255 + "";
+            }
+            alpha = Int16.Parse(tpTxt.Text);
+            tpTrack.Value = alpha;
+            colorMod();
+            settings.Write("Alpha", alpha + "", "Color");
+        }
+        private void num_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }
         }
-
-
-
         // SWATCH COLORS
         public void swatch(Color inColor)
         {
@@ -1028,7 +1105,16 @@ namespace SpeedyPhotoEditor
         {
             String hr = settings.Read(n, "Color");
             String[] clrs = hr.Split('=', ',', ']');
-            Color c = Color.FromArgb(int.Parse(clrs[1]), int.Parse(clrs[3]), int.Parse(clrs[5]), int.Parse(clrs[7]));
+            Color c;
+            try //weird error
+            {
+                c = Color.FromArgb(int.Parse(clrs[1]), int.Parse(clrs[3]), int.Parse(clrs[5]), int.Parse(clrs[7]));
+            }
+            catch
+            {
+                c = SystemColors.Control;
+
+            }
             return c;
         }
         private void swatch_Click(Color a)
@@ -1038,9 +1124,12 @@ namespace SpeedyPhotoEditor
             redTrack.Value = a.R;
             greenTrack.Value = a.G;
             blueTrack.Value = a.B;
+            tpTrack.Value = a.A;
             redTxt.Text = a.R + "";
             greenTxt.Text = a.G + "";
             blueTxt.Text = a.B + "";
+            tpTxt.Text = a.A + "";
+
         }
         private void swatch0_Click(object sender, EventArgs e)
         {
@@ -1092,9 +1181,10 @@ namespace SpeedyPhotoEditor
         int rc; //actual rowcount
         int space, vistog; //row / col that is to be selected
         PictureBox sbox; //selected picture
-        CheckBox lbx; //selected visibility checkbox
-        bool selLayer;
-        Point tempPoint;
+        PictureBox lbx; //selected visibility checkbox
+        bool selLayer; //if something is selected
+        Point tempPoint; //to fix placement of reselected img
+        bool[] vis = new bool[100]; //if somethings visible or not
         private void AddItem(Image img, String path)
         {
             //get a reference to the previous existent 
@@ -1105,8 +1195,8 @@ namespace SpeedyPhotoEditor
             //add a new RowStyle
             layerContainer.RowStyles.Add(temp);
             //add three controls
-            layerContainer.Controls.Add(new CheckBox() { Name = "cb" + rc, Checked = true, BackColor = Color.Transparent }, 0, rc);
-            layerContainer.Controls.Add(new PictureBox() { Name = "pb" + rc, Image = img, Size = new Size(36, 36), SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage, Enabled = false }, 1, rc);
+            layerContainer.Controls.Add(new PictureBox() { Name = "cb" + rc, BackColor = Color.Transparent, Height = 34, BackgroundImageLayout = ImageLayout.Center, BackgroundImage = Properties.Resources.eye }, 0, rc);
+            layerContainer.Controls.Add(new PictureBox() { Name = "pb" + rc, Image = img, Size = new Size(34, 34), SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage, Enabled = false }, 1, rc);
             layerContainer.Controls.Add(new Label() { Name = "lb" + rc, Text = path, Enabled = false, BackColor = Color.Transparent }, 2, rc);
             //add picture
             pic.Controls.Add(new PictureBox()
@@ -1118,6 +1208,7 @@ namespace SpeedyPhotoEditor
                 Enabled = false,
                 BackColor = Color.Transparent
             });
+            vis[rc] = true;
         }
         private void layerContainer_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
         {
@@ -1152,8 +1243,19 @@ namespace SpeedyPhotoEditor
         }
         private void layerContainer_MouseDown(object sender, MouseEventArgs e)
         {
+            bool doNotVis = false;
+            if (space > 0)
+            {
+                if (!vis[space])
+                {
+                    doNotVis = true;
+                }
+                else
+                {
+                    doNotVis = false;
+                }
+            }
             Point cell = GetIndex(layerContainer, layerContainer.PointToClient(Cursor.Position));
-            
             space = cell.Y;
             vistog = cell.X;
 
@@ -1174,40 +1276,39 @@ namespace SpeedyPhotoEditor
                 else //only if clicking between
                 {
                     sbox.Image = selectBox.Image;       //updates img
+                    sbox.Width = selectBox.Width;      //this acts odd
+                    sbox.Height = selectBox.Height;    //this acts odd
                 }
                 
                 sbox.Location = selectBox.Location; //place previous real picture in proper location (if going from layer->layer)
-                sbox.Visible = true;                //makes real layer visible
+
+                if (!doNotVis)
+                {
+                    sbox.Visible = true;                //makes real layer visible
+                }
+                
+                
+                
                 
             }
 
             //change selection
             sbox = (PictureBox)this.Controls.Find("pc" + space, true)[0]; //canvas picturebox
-            lbx = (CheckBox)this.Controls.Find("cb" + space, true)[0]; //layerlist checkbox
-            sboxv.Image = sbox.Image; //debug feature
+            lbx = (PictureBox)this.Controls.Find("cb" + space, true)[0]; //layerlist checkbox
 
-            //if leftmost box is touched
-            if (vistog == 0)
-            {
-                if (lbx.Checked)
-                {
-                    lbx.Checked = false;
-                }
-                else
-                {
-                    lbx.Checked = true;
-                }
-            }
+            //paint selected in view
+            this.layerContainer.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.layerContainer_CellPaint);
+            layerContainer.Refresh();
+
             //fill sbox with a selection
             createSelection(new Rectangle(new Point(0,0), sbox.Size), new Bitmap(sbox.Image, sbox.Size));
             selectBox.Location = sbox.Location; //moves the selection box to where the static layer is
+            //selectBox.BringToFront();
             sbox.Location = new Point(-20000, -20000); //hides real static layer
             sbox.Visible = false;
             
             sbox.Refresh();
-            //paint selected in view
-            this.layerContainer.CellPaint += new System.Windows.Forms.TableLayoutCellPaintEventHandler(this.layerContainer_CellPaint);
-            layerContainer.Refresh();
+            
             
         }
 
@@ -1216,7 +1317,10 @@ namespace SpeedyPhotoEditor
         //DESELECT LAYER
         private void deselectLayer_Click(object sender, EventArgs e)
         {
+            if (!selLayer) { createSelection(); return; }
             sbox.Location = selectBox.Location;
+            sbox.Width = selectBox.Width;      //this acts odd
+            sbox.Height = selectBox.Height;    //this acts odd
             //does the same as "deselection" area in switch layers code
             tempPoint = sbox.Location;
             sbox.Visible = true;
@@ -1231,7 +1335,106 @@ namespace SpeedyPhotoEditor
         }
 
 
+        //VISIBILITY LAYER
+        private void visLayer_Click(object sender, EventArgs e)
+        {
+            if (space > rc || space == 0) { return; }
+            if (vis[space] == true)
+            {
+                lbx.BackgroundImage = Properties.Resources.eyeoff;
+                vis[space] = false;
 
+                sbox.Location = selectBox.Location;
+                //does the same as "deselection" area in switch layers code
+                tempPoint = sbox.Location;
+                sbox.Visible = false;
+                sbox.Image = selectBox.Image;
+                PictureBox miniBox = (PictureBox)this.Controls.Find("pb" + space, true)[0];
+                miniBox.Image = sbox.Image;
+                //moves layer panel selection
+                space = -40;
+                layerContainer.Refresh();
+                selLayer = false;
+                createSelection(new Rectangle(sbox.Location.X, sbox.Location.Y, 0, 0), rm); //unselects region
+            }
+            else
+            {
+                lbx.BackgroundImage = Properties.Resources.eye;
+                vis[space] = true;
+            }
+            
+        }
+
+
+        //ADD DRAWING LAYER BLANK
+        private void addLayer_Click(object sender, EventArgs e)
+        {
+            dx = 0; //makes sbox participate
+            dy = 0;
+            AddItem(new Bitmap(pic.Width, pic.Height), "Layer " + (rc+1));
+            
+            
+        }
+
+
+        //REMOVE LAYER
+        private void subLayer_Click(object sender, EventArgs e)
+        {
+            if (sbox == null) { return; } //only works when somethings selected
+            createSelection(new Rectangle(sbox.Location.X, sbox.Location.Y, 0, 0), rm); //deselect
+            sbox.Dispose(); //kills actual image
+            for (int i = space; i < rc; i++) //rename stuff
+            {
+                Console.WriteLine(i);
+                PictureBox rePic = (PictureBox)this.Controls.Find("pc" + i, true)[0];
+                rePic.Name = "pc" + (i - 1);
+                PictureBox reChk = (PictureBox)this.Controls.Find("cb" + i, true)[0];
+                reChk.Name = "cb" + (i - 1);
+                PictureBox reThumb = (PictureBox)this.Controls.Find("pb" + i, true)[0];
+                reThumb.Name = "pb" + (i - 1);
+                Label reLab = (Label)this.Controls.Find("lb" + i, true)[0];
+                reLab.Name = "lb" + (i - 1);
+                if (i != rc) { vis[i] = vis[i + 1]; }
+            }
+            RemoveArbitraryRow(layerContainer, space); //removes row visually
+
+            rc--;
+
+        }
+        public static void RemoveArbitraryRow(TableLayoutPanel panel, int rowIndex)
+        {
+            if (rowIndex >= panel.RowCount)
+            {
+                return;
+            }
+
+            // delete all controls of row that we want to delete
+            for (int i = 0; i < panel.ColumnCount; i++)
+            {
+                var control = panel.GetControlFromPosition(i, rowIndex);
+                panel.Controls.Remove(control);
+            }
+
+            // move up row controls that comes after row we want to remove
+            for (int i = rowIndex + 1; i < panel.RowCount; i++)
+            {
+                for (int j = 0; j < panel.ColumnCount; j++)
+                {
+                    var control = panel.GetControlFromPosition(j, i);
+                    if (control != null)
+                    {
+                        panel.SetRow(control, i - 1);
+                    }
+                }
+            }
+
+            var removeStyle = panel.RowCount - 1;
+
+            if (panel.RowStyles.Count > removeStyle)
+                panel.RowStyles.RemoveAt(removeStyle);
+
+            panel.RowCount--;
+        }
         //RESIZE CANVAS MENU
         private void resizeWithWhite(int we, int he)
         {
@@ -1311,7 +1514,6 @@ namespace SpeedyPhotoEditor
                 drY = true;
             }
         }
-
         private void panel1_MouseMove(object sender, MouseEventArgs e)
         {
             if ((e.Location.X) / 4 == (pic.Width + 4) / 4)
@@ -1327,7 +1529,6 @@ namespace SpeedyPhotoEditor
                 this.Cursor = Cursors.Default;
             }
         }
-
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
             if (drX)
@@ -1344,7 +1545,6 @@ namespace SpeedyPhotoEditor
             canvasStatus.Text = "Canvas size: " + pic.Width + " x " + pic.Height + "px";
             
         }
-
         private void panel1_MouseLeave(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Default; //in case it wasnt already
@@ -1352,9 +1552,10 @@ namespace SpeedyPhotoEditor
 
         
 
-
         
 
+        
+        
         
         
     }

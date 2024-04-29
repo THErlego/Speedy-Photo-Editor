@@ -67,6 +67,13 @@ namespace SpeedyPhotoEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap add {
+            get {
+                object obj = ResourceManager.GetObject("add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap bg {
             get {
                 object obj = ResourceManager.GetObject("bg", resourceCulture);
@@ -130,6 +137,20 @@ namespace SpeedyPhotoEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap eye {
+            get {
+                object obj = ResourceManager.GetObject("eye", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap eyeoff {
+            get {
+                object obj = ResourceManager.GetObject("eyeoff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap file {
             get {
                 object obj = ResourceManager.GetObject("file", resourceCulture);
@@ -140,6 +161,20 @@ namespace SpeedyPhotoEditor.Properties {
         internal static System.Drawing.Bitmap filesel {
             get {
                 object obj = ResourceManager.GetObject("filesel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap invert {
+            get {
+                object obj = ResourceManager.GetObject("invert", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap invertsel {
+            get {
+                object obj = ResourceManager.GetObject("invertsel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -224,6 +259,13 @@ namespace SpeedyPhotoEditor.Properties {
         internal static System.Drawing.Bitmap selectsel {
             get {
                 object obj = ResourceManager.GetObject("selectsel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap sub {
+            get {
+                object obj = ResourceManager.GetObject("sub", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

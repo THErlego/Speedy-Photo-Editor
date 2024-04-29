@@ -142,9 +142,15 @@
   <ItemGroup>
     <None Include="Resources\bg.png" />
     <None Include="Resources\bg1.png" />
+    <None Include="Resources\add.png" />
     <Content Include="Resources\crop.png" />
     <None Include="Resources\crop1.png" />
     <Content Include="Resources\cropsel.png" />
+    <None Include="Resources\sub.png" />
+    <None Include="Resources\invert.png" />
+    <None Include="Resources\invertsel.png" />
+    <None Include="Resources\eyeoff.png" />
+    <None Include="Resources\eye.png" />
     <None Include="Resources\erasesel.png" />
     <None Include="Resources\erase.png" />
     <None Include="Resources\tile.png" />

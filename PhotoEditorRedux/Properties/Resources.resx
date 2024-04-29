@@ -127,20 +127,29 @@
   <data name="magic" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\magic.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="erase" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\erase.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="uploadsel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\uploadsel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="upload" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\upload.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="invert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\invert.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="erasesel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\erasesel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="brush" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\brush.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="rotate90" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rotate90.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="erase" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\erase.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\kelp.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="invertsel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\invertsel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eye" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eye.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="936996628718563379" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\936996628718563379.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,11 +160,14 @@
   <data name="crop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\crop1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="filesel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\filesel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="bg1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bg1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kelp.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="pickersel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pickersel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="brushsel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\brushsel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -169,8 +181,8 @@
   <data name="picker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\picker.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="uploadsel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\uploadsel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="filesel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\filesel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="save" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\save.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -190,16 +202,22 @@
   <data name="selectsel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\selectsel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pickersel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\pickersel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="rotate90" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\rotate90.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="upload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\upload.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="select" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\select.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="eyeoff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eyeoff.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="file" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\file.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="erasesel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\erasesel.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="sub" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sub.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
