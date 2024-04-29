@@ -1,4 +1,4 @@
-Project built with VS2008
+Project built with VS2008, .NET 3.5
 
 Controls:
 Ctrl + N: new
@@ -9,3 +9,4 @@ Ctrl + A: select all
 Space: draw
 DEL: deletes selection
 
+double click canvas size to resize it manually
